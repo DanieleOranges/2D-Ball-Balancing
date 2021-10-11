@@ -45,7 +45,7 @@ for k = 1 : length(signals_names)
         assignin('base',string(signals_names{k}),data(:,k))
     end
 end
-t = [0:1/signals_frequency:size(data,1)./signals_frequency];
+t = [0:1/signals_frequency:(size(data,1)-1)./signals_frequency]';
 
 %% saving
 clear ans data fid k list n_elem signals signals_names ...
