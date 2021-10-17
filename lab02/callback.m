@@ -49,4 +49,13 @@ T1offset = Pt1(2);
 Pt2 = polyfit([T2min, T2max], [T2min_raw, T2max_raw], 1);
 T2gain   = Pt2(1); 
 T2offset = Pt2(2);
-% 
+
+
+%
+
+Xtare_real =  [-127.5 -80 0 80 127.5] * 1e-3;
+Xtare_raw  =  [870 1250 2036 2836 3410];
+
+
+Ytare_real =  [-97.5 -50 0 50 110]*1e-3; 
+Ytare_raw  =  [890 1370 2040 2690 3409]; 
