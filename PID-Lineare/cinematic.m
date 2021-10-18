@@ -1,4 +1,5 @@
 clear
+clc
 close all
 
 %% Data
@@ -14,8 +15,13 @@ tau = 0.01; % servomotor's time constant
 
 %% Equation of Motion (simplified)
 syms theta_x theta_y
-theta_x_ref = 0;
-theta_y_ref = 0;
-Kbbx = vpa(taylor( (mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Lx) * sin(theta_x),theta_x, theta_x_ref, 'ExpansionPoint', 1));    % x direction transfer function
-Kbby = vpa(taylor( (mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Ly) * sin(theta_y),theta_y, theta_y_ref, 'ExpansionPoint', 1));    % y direction transfer function
+theta_x_ref = 0/180*pi;
+theta_y_ref = 0/180*pi;
 
+Kbbx = (mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Lx) * sin(theta_x);    % x direction transfer function
+Kbbx_lin = subs(Kbbx,theta_x_ref) + (theta_x-theta_x_ref)*subs(diff(Kbbx,theta_x),theta_x_ref);
+Kbbx = double(subs(Kbbx_lin,1));
+
+Kbby = (mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Ly) * sin(theta_y);    % y direction transfer function
+Kbby_lin = subs(Kbby,theta_y_ref) + (theta_y-theta_y_ref)*subs(diff(Kbby,theta_y),theta_y_ref);
+Kbby = double(subs(Kbby_lin,1));
