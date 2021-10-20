@@ -24,8 +24,8 @@ Jb = 0.0000416;                     % rotarional inertia of the ball [kg * m^2]
 rho_ball = mb/(4/3 * pi * rb^3);    % ball density [Kg/m^3]
 
 % Sim data
-ref = [0.03 0.03];
-IC  = [0.00 0.00];
+ref = [0.00 0.00];
+IC  = [0.02 0.02];
 
 
 rho_plane=880;         %(kg/m^3) densita del piano
@@ -59,7 +59,15 @@ Kbby = double(subs(Kbby_lin,1));
 %% PID
 
 PID.v1.Kp     = 3;
-PID.v1.Kd     = 1.5;
 PID.v1.Ki     = 2.4;
+PID.v1.Kd     = 1.5;
 PID.v1.filter = 4.5;
-PID_sim = PID.v1; 
+
+PID.v2.Kp     = 1.90389213912358 ;
+PID.v2.Ki     = 0.330968409924509;
+PID.v2.Kd     =  2.70762690974303;
+PID.v2.filter = 4.5;
+
+
+
+PID_sim = PID.v2; 

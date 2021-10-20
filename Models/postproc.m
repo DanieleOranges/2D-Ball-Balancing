@@ -1,10 +1,10 @@
 data
 
-sim('multibody_2d_ball.slx')
+sim('multibody_sys.slx')
 multi = ans;
-sim('mechanical_system.slx')
+sim('linear_sys.slx')
 lin = ans; 
-sim('pid_non_lineare.slx')
+sim('non_linear_sys.slx')
 nl = ans; 
 
 figure
