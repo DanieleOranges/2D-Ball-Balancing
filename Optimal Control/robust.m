@@ -2,6 +2,7 @@
 clear all
 clc
 set(0,'DefaultFigureWindowStyle','docked')
+addpath(uigetdir(''))
 % addpath(strcat(pwd),)
 
 % Data callback
