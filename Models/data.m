@@ -1,10 +1,6 @@
-clear
-clc
-close all
-
 %% Data
 
-g = 9.81;   % gravitational acceleration [m / s^2]
+g = 0.981;   % gravitational acceleration [m / s^2]
 
 % Dimensions   [m]
 Lx = 0.143;                         % joint position in x direction 
@@ -22,25 +18,36 @@ rb = 0.02;                          % radius of the ball [m]
 mb = 0.265;                         % mass of the ball [kg]
 Jb = 0.0000416;                     % rotarional inertia of the ball [kg * m^2]
 rho_ball = mb/(4/3 * pi * rb^3);    % ball density [Kg/m^3]
-
-% Sim data
-ref = [0.00 0.00];
-IC  = [0.02 0.02];
-
-
 rho_plane=880;         %(kg/m^3) densita del piano
 rho_beam=7500;      % (kg/m^3) densita delle aste
+
+% Sim data
+T_end=10;                  % [s] end time sim
+dt=1e-3;                   % time step
+IC        = [0.0 0.0];   %
+
+% REF input
+ref.bias  = [0.08 0.08];    % costant reference
+ref.freq  = [0   0]*2*pi;   % freq of sin
+ref.amp   = [0   0];        % amp of sin
+ref.phase = [0   pi/2];  
+
+% noise_power  = 0.00000004;
+N.tension=0e-06;
+N.system=0e-10;
+N.sensor=0e-08;
+M_delay=0.01;
 
 %cornice
 Lx_cornice=0.15;         %(cm) dimensione X della cornice (meta)
 Ly_cornice=0.20;         %(cm) dimensione Y della cornice (meta)
 H_cornice=0.005;         %(cm) spessore cornice
-W_cornice=0.02;           %(cm) altezza cornice
+W_cornice=0.05;           %(cm) altezza cornice
 
 
-% noise_power  = 0.00000004;
-noise_power = 0; 
-noise_sample = 0.05; 
+% Pos distance
+contact_treshold = 1e2; 
+
 
 %% Equation of Motion (simplified)
 syms theta_x theta_y
@@ -58,16 +65,20 @@ Kbby = double(subs(Kbby_lin,1));
 
 %% PID
 
-PID.v1.Kp     = 3;
-PID.v1.Ki     = 2.4;
-PID.v1.Kd     = 1.5;
+PID.v1.Kp     = 3;          % 3
+PID.v1.Ki     = 2.4;          % 2.4
+PID.v1.Kd     = 1.5;          % 1.5
 PID.v1.filter = 4.5;
 
 PID.v2.Kp     = 1.90389213912358 ;
 PID.v2.Ki     = 0.330968409924509;
-PID.v2.Kd     =  2.70762690974303;
+PID.v2.Kd     = 2.70762690974303;
 PID.v2.filter = 4.5;
 
 
+PID.v3.Kp     = 0.9;
+PID.v3.Ki     = 0.256;
+PID.v3.Kd     = 27.1;
+PID.v3.filter = 6;
 
-PID_sim = PID.v2; 
+PID_sim = PID.v1; 
