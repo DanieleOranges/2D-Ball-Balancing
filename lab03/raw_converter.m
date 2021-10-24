@@ -3,12 +3,14 @@ clc
 close all
 set(0, 'DefaultFigureWindowStyle', 'docked')
 
-txt2mat_lab2; 
+txt2mat_lab3; 
 callback;
+
+P = polyfit([T1min_raw, T1max_raw], [T1min, T1max], 1);
 
 for ii=1:length(test_raw)
     test(ii).laser = test_raw(ii).laser;
-    test(ii).mot   = polyval(Pt1, test_raw(ii).mot);
+    test(ii).mot   = polyval(P, test_raw(ii).mot);
 
     test(ii).t = test_raw(ii).t;
     test(ii).name = test_raw(ii).name;
@@ -17,7 +19,7 @@ for ii=1:length(test_raw)
 %     
 end
 
-save('lab2', 'test')
+save('lab32', 'test')
 %%
 figure
 
@@ -33,4 +35,5 @@ plot(test(2).t(1:end-1), diff(test(2).mot)./diff(test(2).t))
 
 subplot(2,2,4)
 plot(test(2).t, test(2).laser) 
+%% 93 V/s massimo della derivata prima che si blocchi. 
 
