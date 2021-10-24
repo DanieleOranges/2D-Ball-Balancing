@@ -10,8 +10,6 @@ sim('linear_sys.slx')
 lin = ans; 
 sim('non_linear_sys.slx')
 nl = ans; 
-sim('non_linear_sys2.slx')
-nl2 = ans; 
 
 %%
 

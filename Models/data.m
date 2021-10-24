@@ -24,19 +24,23 @@ rho_beam=7500;      % (kg/m^3) densita delle aste
 % Sim data
 T_end=10;                  % [s] end time sim
 dt=1e-3;                   % time step
-IC        = [0.0 0.0];   %
+time = [0:dt:T_end];       % time array
+IC        = [0.0 0.0];     %
 
 % REF input
-ref.bias  = [0.08 0.08];    % costant reference
-ref.freq  = [0   0]*2*pi;   % freq of sin
-ref.amp   = [0   0];        % amp of sin
-ref.phase = [0   pi/2];  
+% constant -> A*ones(length(time),1);
+% sine     -> A*sin(2*pi*frequency*time + phi);
+
+ref.x.v = 0.08*ones(length(time),1);
+ref.x.t = time;
+ref.y.v = 0.08*ones(length(time),1);
+ref.y.t = time;
+
 
 % noise_power  = 0.00000004;
 N.tension=0e-06;
 N.system=0e-10;
 N.sensor=0e-08;
-M_delay=0.01;
 
 %cornice
 Lx_cornice=0.15;         %(cm) dimensione X della cornice (meta)
