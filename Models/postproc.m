@@ -20,7 +20,6 @@ plot(multi.REF_X)
 plot(multi.x)
 plot(lin.x)
 plot(nl.x)
-%plot(nl2.x)
 ylabel('X [m]')
 xlabel('T [s]')
 legend('ref_X','Multibody', 'Linear', 'Non-Linear')
@@ -31,49 +30,48 @@ plot(multi.REF_Y)
 plot(multi.y)
 plot(lin.y)
 plot(nl.y)
-%plot(nl2.y)
 ylabel('Y [m]')
 xlabel('T [s]')
 legend('ref_Y','Multibody', 'Linear', 'Non-Linear')
 
 %%
-figure(2)
-
-subplot(2,2,1)
-hold on 
-plot(multi.motY.Time,rad2deg(multi.motY.Data))
-plot(lin.betha.Time,rad2deg(lin.betha.Data))
-%plot(nl2.betha.Time,rad2deg(nl2.betha.Data))
-ylabel('bheta [rad]')
-xlabel('T [s]')
-legend('Multibody', 'lin&Non-Linear')
-
-subplot(2,2,3)
-hold on 
-plot(multi.motX.Time,rad2deg(multi.motX.Data))
-plot(lin.alpha.Time,rad2deg(lin.alpha.Data))
-%plot(nl2.alpha.Time,rad2deg(nl2.alpha.Data))
-ylabel('alpha [rad]')
-xlabel('T [s]')
-legend('Multibody', 'lin&Non-Linear')
-
-subplot(2,2,2)
-hold on 
-plot(multi.ThetaX.Time,rad2deg(multi.ThetaX.Data))
-plot(lin.ThetaX.Time,rad2deg(lin.ThetaX.Data))
-%plot(nl2.ThetaX.Time,rad2deg(nl2.ThetaX.Data))
-ylabel('ThetaX [rad]')
-xlabel('T [s]')
-legend('Multibody', 'lin&Non-Linear')
-
-subplot(2,2,4)
-hold on 
-plot(multi.ThetaY.Time,rad2deg(multi.ThetaY.Data))
-plot(lin.ThetaY.Time,rad2deg(lin.ThetaY.Data))
-%plot(nl2.ThetaY.Time,rad2deg(nl2.ThetaY.Data))
-ylabel('ThetaY [rad]')
-xlabel('T [s]')
-legend('Multibody', 'lin&Non-Linear')
+% figure(2)
+% 
+% subplot(2,2,1)
+% hold on 
+% plot(multi.motY.Time,rad2deg(multi.motY.Data))
+% plot(lin.betha.Time,rad2deg(lin.betha.Data))
+% %plot(nl2.betha.Time,rad2deg(nl2.betha.Data))
+% ylabel('bheta [rad]')
+% xlabel('T [s]')
+% legend('Multibody', 'lin&Non-Linear')
+% 
+% subplot(2,2,3)
+% hold on 
+% plot(multi.motX.Time,rad2deg(multi.motX.Data))
+% plot(lin.alpha.Time,rad2deg(lin.alpha.Data))
+% %plot(nl2.alpha.Time,rad2deg(nl2.alpha.Data))
+% ylabel('alpha [rad]')
+% xlabel('T [s]')
+% legend('Multibody', 'lin&Non-Linear')
+% 
+% subplot(2,2,2)
+% hold on 
+% plot(multi.ThetaX.Time,rad2deg(multi.ThetaX.Data))
+% plot(lin.ThetaX.Time,rad2deg(lin.ThetaX.Data))
+% %plot(nl2.ThetaX.Time,rad2deg(nl2.ThetaX.Data))
+% ylabel('ThetaX [rad]')
+% xlabel('T [s]')
+% legend('Multibody', 'lin&Non-Linear')
+% 
+% subplot(2,2,4)
+% hold on 
+% plot(multi.ThetaY.Time,rad2deg(multi.ThetaY.Data))
+% plot(lin.ThetaY.Time,rad2deg(lin.ThetaY.Data))
+% %plot(nl2.ThetaY.Time,rad2deg(nl2.ThetaY.Data))
+% ylabel('ThetaY [rad]')
+% xlabel('T [s]')
+% legend('Multibody', 'lin&Non-Linear')
 %%
 
 n_stap=50;
