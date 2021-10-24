@@ -1,0 +1,6 @@
+# Politecnico di Milano
+# PoliScope V1.1
+
++ # Signals: 6
++ Signals names: no1, no2, no3, laser, mot1, no
++ Sampling frequency [Hz]: 100
