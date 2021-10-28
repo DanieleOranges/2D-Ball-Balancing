@@ -6,7 +6,7 @@ set(0,'DefaultFigureWindowStyle','docked')
 data
 
 % Non linear simulation
-out = sim('linear_sys.slx');
+out = sim('non_linear_sys.slx');
 
 %% Main
 % Motor TF
