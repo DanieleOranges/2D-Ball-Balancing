@@ -11,63 +11,56 @@ rm = 0.025;                        % motor arm length
 lm=0.072 ;                          % motor rod length 
 pt = 0.005;                          % plane tickness
 d=0.021;                            % plane offset
+Mot_Osci_Rang=[-90 ,90];    %(deg)   range di oscilazione dei motori           
 
-Mot_Osci_Rang=[-90 ,90];    %(deg)   range di oscilazione dei motori                  
 % Ball data                 
 rb = 0.02;                          % radius of the ball [m]
 mb = 0.265;                         % mass of the ball [kg]
 Jb = 0.0000416;                      % rotarional inertia of the ball [kg * m^2]
 Jb = 2/5 * mb * rb^2; 
 rho_ball = mb/(4/3 * pi * rb^3);    % ball density [Kg/m^3]
-
 rho_plane=880;         %(kg/m^3) densita del piano
 rho_beam=7500;      % (kg/m^3) densita delle aste
 
-% TFs
-% V2theta = ((pi/2))/10;  % rad/V
-V2theta = 0.20297;
-tau_mot = 0.045691;     % s
-tau_sens = 0.041813;    % s
+% Vecchi parametri
+% V2theta = ((pi/2))/10;  % rad/V ORIGINALE
+% delay_board_y = 0.010022;
+% tau_mot_y = 0.029164;
+% tau_sens_y = 0.074964;
+% V2theta_y = 0.20668;
+
+% Ultimi parametri trovati
+delay_board_x = 0.01; 
+delay_board_y = delay_board_x;
+tau_mot_x = 0.029;
+tau_mot_y = tau_mot_x;
+tau_sens_x = 0.079;
+tau_sens_y = tau_sens_x;
+V2theta_x = 0.222;
+V2theta_y = V2theta_x;
 rate_limit = 20;    % V/s
-% delay_mot = 0.01;
-% delay_sens = 0.01;
-delay_board = 0.01;
 
-V2theta = 0.20297
-tau_mot = 0.045691
-tau_sens = 0.041813
-delay_board = 0.028815
-
-% Sim data
-T_end=13;                  % [s] end time sim
-dt=1e-3;                   % time step
-time = [0:dt:T_end];       % time array
-IC        = [0.0 0.0];     %
-
-% REF input
-% constant -> A*ones(length(time),1);
-% sine     -> A*sin(2*pi*frequency*time + phi);
-
-% ref.x.v = 0.03*ones(length(time),1);
-% ref.x.t = time;
-% ref.y.v = 0.03*ones(length(time),1);
-% ref.y.t = time;
-% 
-ref.x.v = 0.04*sin(2*pi*0.2*time + 0);
-ref.x.t = time;
-ref.y.v = 0.04*sin(2*pi*0.2*time + pi/2);
-ref.y.t = time;
-
-
-
-% noise_power  = 0.00000004;
+% Noise parameters
 Ntension=5e-06;
 Nsystem=0e-10;
 Nsensor=0e-08;
 
+% Sim data
+T_end      = 13;            % [s] end time sim
+dt         = 1e-3;          % time step
+time       = [0:dt:T_end];  % time array
+IC         = [0.0 0.0];     % Initial Condition
+
+%% Input references
+% constant -> A*ones(length(time),1);
+% sine     -> A*sin(2*pi*frequency*time + phi);
+ref.x.v = 0.03*ones(length(time),1);
+ref.x.t = time;
+ref.y.v = 0.03*ones(length(time),1);
+ref.y.t = time;
+
 rf_treshold = 2; 
-rf_amp = 1;         % N
-%cornice
+rf_amp = 1;              % N
 Lx_cornice=0.15;         %(cm) dimensione X della cornice (meta)
 Ly_cornice=0.20;         %(cm) dimensione Y della cornice (meta)
 H_cornice=0.005;         %(cm) spessore cornice
@@ -75,7 +68,6 @@ W_cornice=0.05;           %(cm) altezza cornice
 
 % Pos distance
 contact_treshold = 1e2; 
-
 
 %% Equation of Motion (simplified)
 % syms theta_x theta_y
@@ -97,9 +89,9 @@ Kbby = (mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Lx);    % y direction transfer
 
 %% PID
 
-PID(1).Kp     = 3;          % 3
-PID(1).Ki     = 2.4;          % 2.4
-PID(1).Kd     = 1.5;          % 1.5
+PID(1).Kp     = 3;           
+PID(1).Ki     = 2.4;         
+PID(1).Kd     = 1.5;         
 PID(1).filter = 4.5;
 
 PID(2).Kp     = 1.90389213912358 ;
@@ -127,4 +119,28 @@ PID(6).Ki     = 3;
 PID(6).Kd     = 25;
 PID(6).filter = 5;
 
+
+PID(7).Kp     = 1.95;
+PID(7).Ki     = 0.04;
+PID(7).Kd     = 21.15;
+PID(7).filter = 5;
+
 PID_sim = PID(4); 
+
+% bandwidth: 3.518 [rad/s] | phase margin: 78.3 [deg]  
+PID(7).Kp     = 1.95;
+PID(7).Ki     = 0.04;
+PID(7).Kd     = 21.15;
+PID(7).filter = 5;
+
+% bandwidth:    7 [rad/s] | phase margin: 63.9 [deg]
+PID(8).Kp     = 8.65;
+PID(8).Ki     = 0.35;
+PID(8).Kd     = 46.95;
+PID(8).filter = 5;
+
+% bandwidth:  3.857 [rad/s] | phase margin: 40.5 [deg]
+PID(9).Kp     = 37.6051;
+PID(9).Ki     = 15.4718;
+PID(9).Kd     = 22.2032;
+PID(9).filter = 5;

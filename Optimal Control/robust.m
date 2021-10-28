@@ -6,7 +6,7 @@ set(0,'DefaultFigureWindowStyle','docked')
 data
 
 % Non linear simulation
-out = sim('non_linear_sys.slx');
+out = sim('linear_sys.slx');
 
 %% Main
 % Motor TF
@@ -74,6 +74,7 @@ X.tf = M*Gx;
 [A,B,C,D] = tf2ss(X.tf.num{1},X.tf.den{1});
 [Kx,precision,message] = place(A,B,px);
 X.A = A; X.B = B; X.C = C; X.D = D;
+
 % Closed loop ss form
 Cx_pp = ss(A-B*Kx,B,C,0);
 [NUM,DEN] = ss2tf(Cx_pp.A,Cx_pp.B,Cx_pp.C,Cx_pp.D);
@@ -88,6 +89,7 @@ Y.tf = M*Gy;
 [A,B,C,D] = tf2ss(Y.tf.num{1},Y.tf.den{1});
 [Ky,precision,message] = place(A,B,py);
 Y.A = A; Y.B = B; Y.C = C; Y.D = D;
+
 % Closed loop ss form
 Cy_pp = ss(A-B*Ky,B,C,0);
 [NUM,DEN] = ss2tf(Cy_pp.A,Cy_pp.B,Cy_pp.C,Cy_pp.D);

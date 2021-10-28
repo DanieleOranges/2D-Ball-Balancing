@@ -24,20 +24,20 @@ time = (t0:dt:tf);       % discretize time
 Nsegment = length(time);
 
 % Input reference ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% ref  = load('Monza.mat');
-% ref.x = interp1(1:length(ref.x), ref.x, linspace(1, length(ref.x), Nsegment), 'nearest')';
-% ref.y = interp1(1:length(ref.y), ref.y, linspace(1, length(ref.y), Nsegment), 'nearest')';
+ref  = load('Monza.mat');
+ref.x = interp1(1:length(ref.x), ref.x, linspace(1, length(ref.x), Nsegment), 'nearest')';
+ref.y = interp1(1:length(ref.y), ref.y, linspace(1, length(ref.y), Nsegment), 'nearest')';
 % ref.x = linspace(0,1,Nsegment)';
 % ref.y = linspace(0,0.5,Nsegment)';
-ref.x   = 0.5*sin(2*pi*1*time)';
-ref.y   = 0.5*sin(2*pi*1*time + pi/2)';
+% ref.x   = 0.5*sin(2*pi*0.5*time)';
+% ref.y   = 0.5*sin(2*pi*0.5*time + pi/2)';
 
 % Boundary conditions
-initx = [ref.x(1);0;ref.y(1);0];       % initial values for states
+initx = [ref.x(1);0;ref.y(1);0];       % initial values for the states
 
 % Weights and limits ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % weight for the states
-R = 2;
+R = 10;
 % weight for final condition on state
 P = 3;
 % weights for the control
@@ -48,9 +48,9 @@ Jlim = 1e04;
 %% Iterative Procedure
 % Options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 options = odeset('RelTol', 1e-4, 'AbsTol',[1e-4 1e-4 1e-4 1e-4]);
-Nmax = 1e+05;                       % Maximum number of iterations
+Nmax = 1e+03;                       % Maximum number of iterations
 u    = zeros(2,Nsegment);           % guessed initial control  u = 0
-step = 1e-1;                        % speed of control adjustment
+step = 1e-2;                        % speed of control adjustment
 eps  = 1e-2;                        % Exit tollerance condition
 
 ii = 1;
@@ -103,6 +103,9 @@ while ii < Nmax
    if ii == Nmax
        disp(["Max iterations reached. Final cost: ",num2str(J(ii,1)),' [-]'])
    end
+     % ~~ Real time Cost Functional plot ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     figure(1); plot(ii,J(ii,1),'.b'); hold on; grid on; 
+     % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
    ii = ii  + 1;
 end
 J(J==0) = [];
@@ -125,7 +128,7 @@ plot(x1(1),x3(1),'*r','MarkerSize',6); plot(x1(end),x3(end),'*g','MarkerSize',6)
 plot(ref.x,ref.y,'-.k')
 xlabel('x'); ylabel('y'); grid on; title('Trajectory'); axis equal
 
-figure; plot(1:length(J),J); xlabel('Iterations'); ylabel('Cost functional')
+figure; plot(J); xlabel('Iterations'); ylabel('Cost functional');
 
 %% Optional 
-% save('SineTest.mat',"ref","u","time","J","elapsed_time")
+% save('MonzaTest.mat',"X","ref","u","time","J","elapsed_time")
