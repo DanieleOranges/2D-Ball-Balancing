@@ -3,32 +3,42 @@ clear
 close all
 clc
 
+set(0,'DefaultFigureWindowStyle','docked')
+
 %% Data Callback
 data
 
 % Info:
 % State Vector ->   X = [x1,x2,x3,x4] = [x,xp,y,yp]
 % Control Vector -> u = [u1,u2]       = [x,y]
-% J  = phi(x) + L -> L = 0.5*u'*Q*u  + 0.5*R*(x1-x1ref)^2 + 0.5*(x3-x3ref).^2;
+% J  = phi(x) + L -> L = 0.5*u'*Q*u  + 0.5*(x-xref)'*R*(x-xref)
 % A  = df/dx
 % B  = df/du
 % Lx = dJ/dx
 % Lu = dJ/du
 
+phi = @(u) 0.5*u'*Q*u; 
+L   = @() 
+f   = @(x,u)
+A   = 
+B   = 
+Lx  = 
+Lu  = 
+
 % Initial and final time ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 t0 = 0; 
 dt = 1e-02;
-tf = 1;
+tf = 10;
 % Time interval
 time = (t0:dt:tf);       % discretize time
 Nsegment = length(time);
 
 % Input reference ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ref  = load('Monza.mat');
-ref.x = interp1(1:length(ref.x), ref.x, linspace(1, length(ref.x), Nsegment), 'nearest')';
-ref.y = interp1(1:length(ref.y), ref.y, linspace(1, length(ref.y), Nsegment), 'nearest')';
-% ref.x = linspace(0,1,Nsegment)';
-% ref.y = linspace(0,0.5,Nsegment)';
+% ref  = load('Monza.mat');
+% ref.x = interp1(1:length(ref.x), ref.x, linspace(1, length(ref.x), Nsegment), 'nearest')';
+% ref.y = interp1(1:length(ref.y), ref.y, linspace(1, length(ref.y), Nsegment), 'nearest')';
+ref.x = linspace(0,1,Nsegment)';
+ref.y = linspace(0,0.5,Nsegment)';
 % ref.x   = 0.5*sin(2*pi*0.5*time)';
 % ref.y   = 0.5*sin(2*pi*0.5*time + pi/2)';
 
@@ -39,7 +49,7 @@ initx = [ref.x(1);0;ref.y(1);0];       % initial values for the states
 % weight for the states
 R = 10;
 % weight for final condition on state
-P = 3;
+P = 1;
 % weights for the control
 Q = 0;
 % Limit cost for divergence
@@ -50,13 +60,13 @@ Jlim = 1e04;
 options = odeset('RelTol', 1e-4, 'AbsTol',[1e-4 1e-4 1e-4 1e-4]);
 Nmax = 1e+03;                       % Maximum number of iterations
 u    = zeros(2,Nsegment);           % guessed initial control  u = 0
-step = 1e-2;                        % speed of control adjustment
+step = 1e-4;                        % speed of control adjustment
 eps  = 1e-2;                        % Exit tollerance condition
 
 ii = 1;
 tic
 J = zeros(Nmax,1);
-while ii < Nmax
+while ii <= Nmax
 
    % Forward integration of state dynamics with assumed control u(ii,t)
    [timex,X] = ode45(@(t,x) stateEq(t,x,u,time), time, initx, options);
@@ -104,7 +114,10 @@ while ii < Nmax
        disp(["Max iterations reached. Final cost: ",num2str(J(ii,1)),' [-]'])
    end
      % ~~ Real time Cost Functional plot ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     figure(1); plot(ii,J(ii,1),'.b'); hold on; grid on; 
+%      if rem(ii,10) == 0 
+%         figure(1); plot(ii,J(ii,1),'.b'); hold on; grid on;
+%         disp(['Iterations needed for convergence:',num2str( -(J(ii,1))/((J(ii,1) - J(ii-1,1)) / 10)) ])
+%      end
      % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
    ii = ii  + 1;
 end
@@ -128,7 +141,8 @@ plot(x1(1),x3(1),'*r','MarkerSize',6); plot(x1(end),x3(end),'*g','MarkerSize',6)
 plot(ref.x,ref.y,'-.k')
 xlabel('x'); ylabel('y'); grid on; title('Trajectory'); axis equal
 
-figure; plot(J); xlabel('Iterations'); ylabel('Cost functional');
+figure; plot(J); xlabel('Iterations'); ylabel('Cost functional'); grid on
+title('Cost functional')
 
 %% Optional 
-% save('MonzaTest.mat',"X","ref","u","time","J","elapsed_time")
+save('~.mat','X',"x1",'x2','x3','x4',"ref","u","time","J","elapsed_time")

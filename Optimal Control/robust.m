@@ -83,7 +83,7 @@ Cx_pp = tf(NUM,DEN); clear NUM DEN
 Lx_pp  = Cx_pp/(1-Cx_pp);
 
 % Y direction
-py = [-100 -10+2i -10-2i];
+py = [-10 -10+2i -10-2i];
 
 Y.tf = M*Gy;
 [A,B,C,D] = tf2ss(Y.tf.num{1},Y.tf.den{1});
@@ -97,14 +97,6 @@ Cy_pp = tf(NUM,DEN); clear NUM DEN
 % Open loop tf form
 Ly_pp  = Cy_pp/(1-Cy_pp);
 
-
-%% Noise in motor tension
-% Nmotor  = 
-%% Noise in sensors
-% Nsensor =
-%% Noise in system
-% Nsystem =
-%% LQR
 %% Plots
 figure('Name','State-Space 1'); plot(out.x.Data,out.xp.Data,'b'); grid on; hold on
 plot(out.y.Data,out.yp.Data,'r'); grid on

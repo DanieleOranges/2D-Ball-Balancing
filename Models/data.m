@@ -123,24 +123,29 @@ PID(6).filter = 5;
 PID(7).Kp     = 1.95;
 PID(7).Ki     = 0.04;
 PID(7).Kd     = 21.15;
-PID(7).filter = 5;
-
-PID_sim = PID(4); 
+PID(7).filter = 5; % era 500 da PID TUNER
 
 % bandwidth: 3.518 [rad/s] | phase margin: 78.3 [deg]  
 PID(7).Kp     = 1.95;
 PID(7).Ki     = 0.04;
 PID(7).Kd     = 21.15;
-PID(7).filter = 5;
+PID(7).filter = 5;  % era 500 da PID TUNER
 
 % bandwidth:    7 [rad/s] | phase margin: 63.9 [deg]
 PID(8).Kp     = 8.65;
 PID(8).Ki     = 0.35;
 PID(8).Kd     = 46.95;
-PID(8).filter = 5;
+PID(8).filter = 5;  % era 500 da PID TUNER
 
 % bandwidth:  3.857 [rad/s] | phase margin: 40.5 [deg]
 PID(9).Kp     = 37.6051;
 PID(9).Ki     = 15.4718;
 PID(9).Kd     = 22.2032;
-PID(9).filter = 5;
+PID(9).filter = 5; % era 500 da PID TUNER
+
+PID(10).Kp     = 7.21785018869804;
+PID(10).Ki     = 0.222865836062397;
+PID(10).Kd     = 24.2951589881292;
+PID(10).filter = 450;
+
+PID_sim = PID(9); 
