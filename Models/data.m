@@ -23,29 +23,34 @@ rho_plane=880;         %(kg/m^3) densita del piano
 rho_beam=7500;      % (kg/m^3) densita delle aste
 
 % Vecchi parametri
-% V2theta = ((pi/2))/10;  % rad/V ORIGINALE
-% delay_board_y = 0.010022;
-% tau_mot_y = 0.029164;
-% tau_sens_y = 0.074964;
-% V2theta_y = 0.20668;
+V2theta = ((pi/2))/10;  % rad/V ORIGINALE
 
-% Ultimi parametri trovati
+%% Parametri sperimentali
 delay_board_x = 0.01; 
+V2theta_x = 0.21967;
+tau_mot_x = 0.049991;
+tau_sens_x = 0.083586;
+
+
 delay_board_y = delay_board_x;
-tau_mot_x = 0.029;
 tau_mot_y = tau_mot_x;
-tau_sens_x = 0.079;
 tau_sens_y = tau_sens_x;
-V2theta_x = 0.222;
 V2theta_y = V2theta_x;
+
+bias_Vx = -0.2; 
+bias_Vy = -0.5; 
+bias_x  = 0; 
+bias_y  = 0; 
+
 rate_limit = 20;    % V/s
 
 % Noise parameters
-Ntension=5e-06;
+Ntension=2e-03;
 Nsystem=0e-10;
 Nsensor=0e-08;
 
-% Sim data
+
+%% Sim data
 T_end      = 13;            % [s] end time sim
 dt         = 1e-3;          % time step
 time       = [0:dt:T_end];  % time array
@@ -61,6 +66,8 @@ ref.y.t = time;
 
 rf_treshold = 2; 
 rf_amp = 1;              % N
+
+%% Multibody data
 Lx_cornice=0.15;         %(cm) dimensione X della cornice (meta)
 Ly_cornice=0.20;         %(cm) dimensione Y della cornice (meta)
 H_cornice=0.005;         %(cm) spessore cornice
@@ -69,20 +76,11 @@ W_cornice=0.05;           %(cm) altezza cornice
 % Pos distance
 contact_treshold = 1e2; 
 
-%% Equation of Motion (simplified)
-% syms theta_x theta_y
-% theta_x_ref = 0/180*pi;
-% theta_y_ref = 0/180*pi;
-% 
-% Kbbx = (mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Lx) * sin(theta_x);    % x direction transfer function
-% Kbbx_lin = subs(Kbbx,theta_x_ref) + (theta_x-theta_x_ref)*subs(diff(Kbbx,theta_x),theta_x_ref);
-% Kbbx = double(subs(Kbbx_lin,1));
-% 
-% Kbby = (mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Ly) * sin(theta_y);    % y direction transfer function
-% Kbby_lin = subs(Kbby,theta_y_ref) + (theta_y-theta_y_ref)*subs(diff(Kbby,theta_y),theta_y_ref);
-% Kbby = double(subs(Kbby_lin,1));
+% Attrito
+mu_static = 0.5; 
+mu_dynamic = 0.3; 
 
-% Modifica Ernia
+%% Equation of Motion (simplified)
 Kbbx = (mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Ly);    % x direction transfer function
 Kbby = (mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Lx);    % y direction transfer function
 
@@ -119,7 +117,6 @@ PID(6).Ki     = 3;
 PID(6).Kd     = 25;
 PID(6).filter = 5;
 
-
 PID(7).Kp     = 1.95;
 PID(7).Ki     = 0.04;
 PID(7).Kd     = 21.15;
@@ -143,9 +140,27 @@ PID(9).Ki     = 15.4718;
 PID(9).Kd     = 22.2032;
 PID(9).filter = 5; % era 500 da PID TUNER
 
-PID(10).Kp     = 7.21785018869804;
-PID(10).Ki     = 0.222865836062397;
-PID(10).Kd     = 24.2951589881292;
-PID(10).filter = 450;
+% PID provati a LAB04
+PID(10).Kp     = 18.57;
+PID(10).Ki     = 1.59;
+PID(10).Kd     = 21.6;
+PID(10).filter = 579.09;
 
-PID_sim = PID(9); 
+PID(11).Kp     = 18.57;
+PID(11).Ki     = 1.59;
+PID(11).Kd     = 21.6;
+PID(11).filter = 10;
+
+PID(12).Kp     = 18.57;
+PID(12).Ki     = 3;
+PID(12).Kd     = 21.6;
+PID(12).filter = 10;
+
+% PID nuovo Daniele
+PID(13).Kp     = 7.21785018869804;
+PID(13).Ki     = 0.222865836062397;
+PID(13).Kd     = 24.2951589881292;
+PID(13).filter = 450;
+
+PID_sim = PID(12); 
+
