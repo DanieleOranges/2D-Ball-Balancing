@@ -1,0 +1,7 @@
+# Politecnico di Milano
+# PoliScope V1.1
+
++ # Signals: 6
++ Signals names: X, Y, pot1, pot2, motX, motY
++ Sampling frequency [Hz]: 100
+PID  12 0.08 0.06
