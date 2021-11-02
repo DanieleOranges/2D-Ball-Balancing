@@ -10,23 +10,25 @@ data
 load('lab04.mat');
 %%
 
-i_start = [0 0 0 0 17443];
+i_start = [0 0 11428 0 17443];
 
 IC        = [0.0 0.0];     
 
 PID_idx = [12 12 12 12 12];
 
 %%
+ref_x = [0 0 0.08 0 0.09];
+ref_y = [0 0 0.06 0 0.07];
 
-ref.x.v = 0.09*ones(length(time),1);
-ref.x.t = time;
-ref.y.v = 0.07*ones(length(time),1);
-ref.y.t = time;
-T_end = 8; 
 
-for ii = 5:5%1:length(test)
+
+for ii = [3 5]
     PID_sim = PID(PID_idx(ii)); 
     
+    ref.x.v = ref_x(ii)*ones(length(time),1);
+ref.x.t = time;
+ref.y.v = ref_y(ii)*ones(length(time),1);
+ref.y.t = time;
     Xexp = [test(ii).t(i_start(ii):i_start(ii)+T_end*100)-test(ii).t(i_start(ii)),...
         test(ii).X(i_start(ii):i_start(ii)+T_end*100)];
 

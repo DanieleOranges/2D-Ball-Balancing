@@ -372,3 +372,15 @@ slprj/sim/varcache/linear_sys/varInfo.mat
 slprj/sim/varcache/non_linear_sys/checksumOfCache.mat
 slprj/sim/varcache/non_linear_sys/varInfo.mat
 *.slxc
+Models/slprj/sim/varcache/linear_sys/checksumOfCache.mat
+Models/slprj/sim/varcache/linear_sys/checksumOfCache.mat
+Models/slprj/sim/varcache/linear_sys/tmwinternal/simulink_cache.xml
+lab04/slprj/sim/varcache/linear_sys/checksumOfCache.mat
+lab04/slprj/sim/varcache/linear_sys/varInfo.mat
+lab04/slprj/sim/varcache/multibody_sys/checksumOfCache.mat
+lab04/slprj/sim/varcache/multibody_sys/varInfo.mat
+lab04/slprj/sim/varcache/non_linear_sys/checksumOfCache.mat
+lab04/slprj/sim/varcache/non_linear_sys/varInfo.mat
+Models/slprj/sim/varcache/linear_sys/checksumOfCache.mat
+Models/slprj/sim/varcache/linear_sys/tmwinternal/simulink_cache.xml
+Models/slprj/sim/varcache/linear_sys/varInfo.mat

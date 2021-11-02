@@ -37,6 +37,11 @@ tau_mot_y = tau_mot_x;
 tau_sens_y = tau_sens_x;
 V2theta_y = V2theta_x;
 
+V2theta_y = 0.19677;
+delay_board_y = 0.049799;
+tau_mot_y = 0.043174;
+tau_sens_y = 0.036103;
+
 bias_Vx = -0.2; 
 bias_Vy = -0.5; 
 bias_x  = 0; 
@@ -48,7 +53,7 @@ rate_limit = 20;    % V/s
 Ntension=2e-03;
 Nsystem=0e-10;
 Nsensor=0e-08;
-
+noise_seed = round([23341]*rand()); 
 
 %% Sim data
 T_end      = 13;            % [s] end time sim
