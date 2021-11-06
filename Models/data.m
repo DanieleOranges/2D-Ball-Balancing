@@ -50,13 +50,13 @@ bias_y  = 0;
 rate_limit = 20;    % V/s
 
 % Noise parameters
-Ntension=2e-03;
-Nsystem=0e-10;
-Nsensor=0e-08;
+Ntension =  0%2e-03;
+Nsystem  =  0e-10;
+Nsensor  =  0%0.5e-10;
 noise_seed = round([23341]*rand()); 
 
 %% Sim data
-T_end      = 13;            % [s] end time sim
+T_end      = 8.5;            % [s] end time sim
 dt         = 1e-3;          % time step
 time       = [0:dt:T_end];  % time array
 IC         = [0.0 0.0];     % Initial Condition
@@ -91,81 +91,137 @@ Kbby = (mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Lx);    % y direction transfer
 
 
 %% PID
+% 
+% PID(1).Kp     = 3;           
+% PID(1).Ki     = 2.4;         
+% PID(1).Kd     = 1.5;         
+% PID(1).filter = 4.5;
+% 
+% PID(2).Kp     = 1.90389213912358 ;
+% PID(2).Ki     = 0.330968409924509;
+% PID(2).Kd     = 2.70762690974303;
+% PID(2).filter = 4.5;
+% 
+% PID(3).Kp     = 0.9;
+% PID(3).Ki     = 0.256;
+% PID(3).Kd     = 27.1;
+% PID(3).filter = 6;
+% 
+% PID(4).Kp     = 30;
+% PID(4).Ki     = 6;
+% PID(4).Kd     = 20;
+% PID(4).filter = 5;
+% 
+% PID(5).Kp     = 30;
+% PID(5).Ki     = 5;
+% PID(5).Kd     = 20;
+% PID(5).filter = 5;
+% 
+% PID(6).Kp     = 30;
+% PID(6).Ki     = 3;
+% PID(6).Kd     = 25;
+% PID(6).filter = 5;
+% 
+% PID(7).Kp     = 1.95;
+% PID(7).Ki     = 0.04;
+% PID(7).Kd     = 21.15;
+% PID(7).filter = 5; % era 500 da PID TUNER
+% 
+% % bandwidth: 3.518 [rad/s] | phase margin: 78.3 [deg]  
+% PID(7).Kp     = 1.95;
+% PID(7).Ki     = 0.04;
+% PID(7).Kd     = 21.15;
+% PID(7).filter = 5;  % era 500 da PID TUNER
+% 
+% % bandwidth:    7 [rad/s] | phase margin: 63.9 [deg]
+% PID(8).Kp     = 8.65;
+% PID(8).Ki     = 0.35;
+% PID(8).Kd     = 46.95;
+% PID(8).filter = 5;  % era 500 da PID TUNER
+% 
+% % bandwidth:  3.857 [rad/s] | phase margin: 40.5 [deg]
+% PID(9).Kp     = 37.6051;
+% PID(9).Ki     = 15.4718;
+% PID(9).Kd     = 22.2032;
+% PID(9).filter = 5; % era 500 da PID TUNER
+% 
+% % PID provati a LAB04
+% PID(10).Kp     = 18.57;
+% PID(10).Ki     = 1.59;
+% PID(10).Kd     = 21.6;
+% PID(10).filter = 579.09;
+% 
+% PID(11).Kp     = 18.57;
+% PID(11).Ki     = 1.59;
+% PID(11).Kd     = 21.6;
+% PID(11).filter = 10;
+% 
+% PID(12).Kp     = 18.57;
+% PID(12).Ki     = 3;
+% PID(12).Kd     = 21.6;
+% PID(12).filter = 10;
+% 
+% % PID nuovo Daniele
+% PID(13).Kp     = 7.21785018869804;
+% PID(13).Ki     = 0.222865836062397;
+% PID(13).Kd     = 24.2951589881292;
+% PID(13).filter = 450;
 
-PID(1).Kp     = 3;           
-PID(1).Ki     = 2.4;         
-PID(1).Kd     = 1.5;         
-PID(1).filter = 4.5;
 
-PID(2).Kp     = 1.90389213912358 ;
-PID(2).Ki     = 0.330968409924509;
-PID(2).Kd     = 2.70762690974303;
-PID(2).filter = 4.5;
 
-PID(3).Kp     = 0.9;
-PID(3).Ki     = 0.256;
-PID(3).Kd     = 27.1;
-PID(3).filter = 6;
+%% taratura nuova
 
-PID(4).Kp     = 30;
-PID(4).Ki     = 6;
-PID(4).Kd     = 20;
-PID(4).filter = 5;
+% Trovato sperimentalmente con Daniele
+PID(1).x.Kp     = 18.57;
+PID(1).x.Ki     = 3;
+PID(1).x.Kd     = 21.6;
+PID(1).x.filter = 10;
+PID(1).y = PID(1).x;
 
-PID(5).Kp     = 30;
-PID(5).Ki     = 5;
-PID(5).Kd     = 20;
-PID(5).filter = 5;
+% X con 18° e 5 rad/s balanced
+PID(2).x.Kp     = 56.5;
+PID(2).x.Ki     = 2.4;
+PID(2).x.Kd     = 29.4;
+PID(2).x.filter = 52;
 
-PID(6).Kp     = 30;
-PID(6).Ki     = 3;
-PID(6).Kd     = 25;
-PID(6).filter = 5;
+PID(2).y.Kp     = 49.9;
+PID(2).y.Ki     = 2.14;
+PID(2).y.Kd     = 22.86;
+PID(2).y.filter = 52;
 
-PID(7).Kp     = 1.95;
-PID(7).Ki     = 0.04;
-PID(7).Kd     = 21.15;
-PID(7).filter = 5; % era 500 da PID TUNER
+% X con 25° e 5 rad/s balanced
+PID(3).x.Kp     = 37.6;
+PID(3).x.Ki     = 1.58;
+PID(3).x.Kd     = 30.9;
+PID(3).x.filter = 52;
 
-% bandwidth: 3.518 [rad/s] | phase margin: 78.3 [deg]  
-PID(7).Kp     = 1.95;
-PID(7).Ki     = 0.04;
-PID(7).Kd     = 21.15;
-PID(7).filter = 5;  % era 500 da PID TUNER
+PID(3).y.Kp     = 35.1;
+PID(3).y.Ki     = 1.49;
+PID(3).y.Kd     = 24.16;
+PID(3).y.filter = 52;
 
-% bandwidth:    7 [rad/s] | phase margin: 63.9 [deg]
-PID(8).Kp     = 8.65;
-PID(8).Ki     = 0.35;
-PID(8).Kd     = 46.95;
-PID(8).filter = 5;  % era 500 da PID TUNER
 
-% bandwidth:  3.857 [rad/s] | phase margin: 40.5 [deg]
-PID(9).Kp     = 37.6051;
-PID(9).Ki     = 15.4718;
-PID(9).Kd     = 22.2032;
-PID(9).filter = 5; % era 500 da PID TUNER
+% Daniele sperimentale 
+PID(4).x.Kp     = 22.5;
+PID(4).x.Ki     = 0.2; 
+PID(4).x.Kd     = 18;
+PID(4).x.filter = 20; 
 
-% PID provati a LAB04
-PID(10).Kp     = 18.57;
-PID(10).Ki     = 1.59;
-PID(10).Kd     = 21.6;
-PID(10).filter = 579.09;
+PID(4).y = PID(4).x;
 
-PID(11).Kp     = 18.57;
-PID(11).Ki     = 1.59;
-PID(11).Kd     = 21.6;
-PID(11).filter = 10;
+% bw 3.8 pm 34
+PID(5).x.Kp     = 12.53 ;
+PID(5).x.Ki     = 1.44  ;
+PID(5).x.Kd     = 23.19 ;
+PID(5).x.filter = 20.73 ;
 
-PID(12).Kp     = 18.57;
-PID(12).Ki     = 3;
-PID(12).Kd     = 21.6;
-PID(12).filter = 10;
+PID(5).y = PID(5).x;
 
-% PID nuovo Daniele
-PID(13).Kp     = 7.21785018869804;
-PID(13).Ki     = 0.222865836062397;
-PID(13).Kd     = 24.2951589881292;
-PID(13).filter = 450;
+% 
+PID(6).x.Kp     = 19.3;
+PID(6).x.Ki     = 3.55;
+PID(6).x.Kd     = 25.82;
+PID(6).x.filter = 44.06;
 
-PID_sim = PID(12); 
+PID(6).y = PID(6).x;
 
