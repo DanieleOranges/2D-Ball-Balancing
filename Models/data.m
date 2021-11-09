@@ -19,48 +19,40 @@ mb = 0.265;                         % mass of the ball [kg]
 Jb = 0.0000416;                      % rotarional inertia of the ball [kg * m^2]
 Jb = 2/5 * mb * rb^2; 
 rho_ball = mb/(4/3 * pi * rb^3);    % ball density [Kg/m^3]
-rho_plane=880;         %(kg/m^3) densita del piano
-rho_beam=7500;      % (kg/m^3) densita delle aste
+rho_plane=880;                       %(kg/m^3) densita del piano
+rho_beam=7500;                  % (kg/m^3) densita delle aste
 
 % Vecchi parametri
 V2theta = ((pi/2))/10;  % rad/V ORIGINALE
 
 %% Parametri sperimentali
+
 delay_board_x = 0.01; 
-V2theta_x = 0.21967;
+delay_board_y = 0.01; 
 
-tau_mot_x = 0.049991;
-tau_sens_x = 0.083586;
+grid_pace = 0.75e-3; %[m]
+
+% Estimation result(s):
+V2theta_x = 0.16565;
+tau_mot_x = 0.066472;
+tau_sens_x = 0.025331;
+% Estimation result(s):
+V2theta_y = 0.15936;
+tau_mot_y = 0.04644;
+tau_sens_y = 0.04628;
 
 
-delay_board_y = delay_board_x;
-tau_mot_y = tau_mot_x;
-tau_sens_y = tau_sens_x;
-V2theta_y = V2theta_x;
+bias_Vx = 0; 
+bias_Vy = 0; 
 
-V2theta_y = 0.19677;
-delay_board_y = 0.049799;
-tau_mot_y = 0.043174;
-tau_sens_y = 0.036103;
 
-    V2theta_x = 0.16565
-    tau_mot_x = 0.066472
-    tau_sens_x = 0.025331
-    bias_Vx = 0.054595
-G_sens_x = 1; 
-G_sens_y = 1; 
-
-% bias_Vx = 0; 
-bias_Vy = 0.3; 
-% bias_x  = 0; 
-% bias_y  = 0; 
 
 rate_limit = 20;    % V/s
 
 % Noise parameters
-Ntension =  0%2e-03;
+Ntension =  0;           %2e-03;
 Nsystem  =  0e-10;
-Nsensor  =  0%0.5e-10;
+Nsensor  =  0;           %0.5e-10;
 noise_seed = round([23341]*rand()); 
 
 %% Sim data
@@ -72,6 +64,7 @@ IC         = [0.0 0.0];     % Initial Condition
 %% Input references
 % constant -> A*ones(length(time),1);
 % sine     -> A*sin(2*pi*frequency*time + phi);
+
 ref_Cx = 0.03; 
 ref_Cy = 0.03; 
 
@@ -81,7 +74,7 @@ ref.y.v = ref_Cy*ones(length(time),1);
 ref.y.t = time;
 
 rf_treshold = 2; 
-rf_amp = 1;              % N
+rf_amp = 1;              
 
 %% Multibody data
 Lx_cornice=0.15;         %(cm) dimensione X della cornice (meta)
