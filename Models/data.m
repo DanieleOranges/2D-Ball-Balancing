@@ -28,6 +28,7 @@ V2theta = ((pi/2))/10;  % rad/V ORIGINALE
 %% Parametri sperimentali
 delay_board_x = 0.01; 
 V2theta_x = 0.21967;
+
 tau_mot_x = 0.049991;
 tau_sens_x = 0.083586;
 
@@ -42,10 +43,17 @@ delay_board_y = 0.049799;
 tau_mot_y = 0.043174;
 tau_sens_y = 0.036103;
 
-bias_Vx = -0.2; 
-bias_Vy = -0.5; 
-bias_x  = 0; 
-bias_y  = 0; 
+    V2theta_x = 0.16565
+    tau_mot_x = 0.066472
+    tau_sens_x = 0.025331
+    bias_Vx = 0.054595
+G_sens_x = 1; 
+G_sens_y = 1; 
+
+% bias_Vx = 0; 
+bias_Vy = 0.3; 
+% bias_x  = 0; 
+% bias_y  = 0; 
 
 rate_limit = 20;    % V/s
 
@@ -64,9 +72,12 @@ IC         = [0.0 0.0];     % Initial Condition
 %% Input references
 % constant -> A*ones(length(time),1);
 % sine     -> A*sin(2*pi*frequency*time + phi);
-ref.x.v = 0.03*ones(length(time),1);
+ref_Cx = 0.03; 
+ref_Cy = 0.03; 
+
+ref.x.v = ref_Cx*ones(length(time),1);
 ref.x.t = time;
-ref.y.v = 0.03*ones(length(time),1);
+ref.y.v = ref_Cy*ones(length(time),1);
 ref.y.t = time;
 
 rf_treshold = 2; 
@@ -225,3 +236,9 @@ PID(6).x.filter = 44.06;
 
 PID(6).y = PID(6).x;
 
+PID(7).x.Kp     = 29;
+PID(7).x.Ki     = 0.5;
+PID(7).x.Kd     = 20;
+PID(7).x.filter = 20; 
+
+PID(7).y = PID(7).x;

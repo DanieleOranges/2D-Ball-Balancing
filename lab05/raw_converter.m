@@ -9,9 +9,12 @@ P= polyfit([T1min_raw, T1max_raw],[T1min, T1max],  1);
 
 
 for ii=1:length(test_raw)
+    X_sim = test_raw(ii).X;
+    Y_sim = test_raw(ii).Y; 
     
-    test(ii).X = interp1(Xtare_raw, Xtare_real, test_raw(ii).X);
-    test(ii).Y = interp1(Ytare_raw, Ytare_real, test_raw(ii).Y); 
+    sim('conversion.slx')    
+    test(ii).X = ans.X.Data'; 
+    test(ii).Y = ans.Y.Data'; 
    
     test(ii).motX = polyval(P, test_raw(ii).motX);
     test(ii).motY = polyval(P, test_raw(ii).motY);
