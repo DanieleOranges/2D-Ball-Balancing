@@ -193,7 +193,7 @@ end
 
 %% Parameter Estimation SETUP
 
-ii = 6;
+ii = 4;
 
 IC        = [0 0.0];    
 ref.x.v = ref_x(ii)*ones(length(time),1);
