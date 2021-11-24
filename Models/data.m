@@ -1,7 +1,9 @@
 %% Data
 
+pole_placement
 g = 9.81;   % gravitational acceleration [m / s^2]
-load('gain_matrix.mat')
+
+load('../gain_matrix.mat')
 % Dimensions   [m]
 Lx = 0.143;                         % joint position in x direction 
 Ly = 0.184;                         % joint position in y direction 
@@ -30,7 +32,7 @@ V2theta = ((pi/2))/10;  % rad/V ORIGINALE
 delay_board_x = 0.01; 
 delay_board_y = 0.01; 
 
-grid_pace = 0.75e-3; %[m]
+grid_pace = 0.7e-3; %[m]
 
 % Estimation result(s):
 V2theta_x = 0.16565;
@@ -50,13 +52,13 @@ bias_Vy = 0;
 rate_limit = 20;    % V/s
 
 % Noise parameters
-Ntension =  0;           %2e-03;
+Ntension =  0.5e-03;
 Nsystem  =  0e-10;
-Nsensor  =  0;           %0.5e-10;
+Nsensor  =  5e-10;
 noise_seed = round([23341]*rand()); 
 
 %% Sim data
-T_end      = 20;            % [s] end time sim
+T_end      = 50;            % [s] end time sim
 dt         = 1e-3;          % time step
 time       = [0:dt:T_end];  % time array
 IC         = [0.0 0.0];     % Initial Condition
@@ -65,13 +67,26 @@ IC         = [0.0 0.0];     % Initial Condition
 % constant -> A*ones(length(time),1);
 % sine     -> A*sin(2*pi*frequency*time + phi);
 
-ref_Cx = 0.03; 
-ref_Cy = 0.03; 
+ref_Cx = 0.06; 
+ref_Cy = 0.06; 
 
 ref.x.v = ref_Cx*ones(length(time),1);
 ref.x.t = time;
 ref.y.v = ref_Cy*ones(length(time),1);
 ref.y.t = time;
+
+freq = 0.3; 
+ref.x.v = ref_Cx*sin(2*pi*freq*time);
+ref.x.t = time;
+ref.y.v = ref_Cy*sin(2*pi*freq*time + pi/2);
+ref.y.t = time;
+
+load('Monza.mat')
+
+ref.x.v = x';
+ref.x.t = linspace(0,T_end,length(x));
+ref.y.v = y';
+ref.y.t = linspace(0,T_end,length(y));
 
 rf_treshold = 2; 
 rf_amp = 1;              

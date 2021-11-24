@@ -2,8 +2,12 @@ clear
 close all
 
 %% Choose Poles as Input
-poles_x_chosen = [-10, -5, -0.5 + 0.25i, -0.5 - 0.25i]; % chosen poles in x direction
-poles_y_chosen = [-10, -5, -0.5 + 0.25i, -0.5 - 0.25i]; % chosen poles in y direction
+
+% t_s = 5/max(poles_x_chosen);
+% t_s = 1; 
+% dom_pole = 5/t_s; 
+poles_x_chosen = [-40, -30, -0.8 + 0.25i, -0.8 - 0.25i]; % chosen poles in x direction
+poles_y_chosen = [-10, -5,  -0.8 + 0.25i, -0.8 - 0.25i]; % chosen poles in y direction
 
 %% Data Initialization
 
@@ -93,4 +97,4 @@ Kyi = Kgain_y(3);    % integral control gain
 A_y_fullstate = A_y_aug - B_y_aug * Kgain_y;    % full state feedback matrix
 
 %% Export Variables
-save('gain_matrix.mat', 'Kx', 'Kxi', 'Ky', 'Kyi')
+save('../gain_matrix.mat', 'Kx', 'Kxi', 'Ky', 'Kyi')
