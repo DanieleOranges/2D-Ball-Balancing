@@ -61,14 +61,14 @@ L   = @(R,Q) 0.5*u'*R*u + 0.5*(x-xref)'*Q*(x-xref);
 
 % From mechanical system constraint
 obj.A  =   [0,  1,  0,  0; 
-        0,  0,  0,  0; 
-        0,  0,  0,  1; 
-        0,  0,  0,  0];
+            0,  0,  0,  0; 
+            0,  0,  0,  1; 
+            0,  0,  0,  0];
 
 obj.B  =  [Kbbx*1,      0;
-            0,      0;
-            0, Kbby*1;
-            0,      0];
+                0,      0;
+                0, Kbby*1;
+                0,      0];
 
 % From cost functional 
 obj.Lx = Q*(x-xref);

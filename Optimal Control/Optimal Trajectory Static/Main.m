@@ -9,7 +9,7 @@ Kbby = 0.9381;
 
 % Initial and final time
 t0 = 0; 
-tf = 5;
+tf = 10;
 
 % Boundary conditions
 % Initial States x_i = [xi;xpi;yi;ypi];
@@ -26,9 +26,9 @@ x_f = [-10;
  
 % Dynamical system
 dx = @(x,u) [           x(2);
-              Kbbx*sin(u(1));
+              Kbbx*(u(1));
                         x(4);
-             Kbby*sin(u(2))];
+             Kbby*(u(2))];
 
 % Jacobian of the dynamics
 fx = @(x,u) [  0 , 1 , 0 , 0;   
@@ -37,17 +37,18 @@ fx = @(x,u) [  0 , 1 , 0 , 0;
                0 , 0 , 0 , 0];
 
 fu = @(x,u) [             0,               0;
-             cos(u(1))*Kbbx,               0;
+             1*Kbbx,               0;
                           0,               0;
-                          0, cos(u(2))*Kbby];
+                          0, 1*Kbby];
                                                                                       
-% weights for the integral cost
-R = [ 100,   0;
-      0,   100];
+% weights for the control cost
+R = [ 10,   0;
+      0,   10];
 
-Q = [ 0,0,0,0;
+% weights for state
+Q = [ 1,0,0,0;
       0,0,0,0;
-      0,0,0,0;
+      0,0,1,0;
       0,0,0,0];
 
 % weight the final state
@@ -62,7 +63,7 @@ p = @(x) 0.5*(x - x_f)'*P*(x - x_f) ; % Final cost
 
 Lx =@(x,u) Q*x;
 Lu =@(x,u) R'*u;
-px =@(x) P*(x - x_f);
+px =@(x)   P*(x - x_f);
 
 %% Setup minimization problem
 
@@ -72,7 +73,7 @@ N = 101;      % number of temporal steps
 h = tf/(N-1); % temporal discretization 
 
 options = optimoptions('fmincon',...
-    'SpecifyObjectiveGradient',true,'SpecifyConstraintGradient',true,'CheckGradients',true,'Display','iter');
+    'SpecifyObjectiveGradient',false,'SpecifyConstraintGradient',true,'CheckGradients',true,'Display','iter');
 
 % Initial conditions for the minimization problem
 z0 = zeros(N*(nx + nu) + nx,1);

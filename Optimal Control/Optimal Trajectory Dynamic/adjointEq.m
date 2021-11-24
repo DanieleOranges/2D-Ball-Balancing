@@ -1,4 +1,4 @@
-function dp = adjointEq(t,p,u,Tu,x1,x2,x3,x4,ref,xt,R)
+function dp = adjointEq(t,p,u,Tu,x1,x2,x3,x4,ref,xt,R,K)
 
 dp = zeros(4,1);
 x1 = interp1(xt,x1,t);   % Interpolate the state variables
@@ -11,10 +11,10 @@ ref.y = interp1(xt,ref.y,t);
 ux = interp1(Tu,u(1,:),t);     % Interpolate the control
 uy = interp1(Tu,u(2,:),t);
 
-Lx = [ R(1,1)*(x1-ref.x);
+Lx = [ R(1,1)*(x1-ref.x) + K*exp(x1-ref.x);
                   0;
-       R(3,3)*(x3-ref.y);
-                 0];
+       R(3,3)*(x3-ref.y) + K*exp(x3-ref.y);
+                  0];
 
 A  = [0,1,0,0;   % x1
       0,0,0,0;   % x2

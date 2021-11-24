@@ -1,6 +1,5 @@
 lambdap = adjoint_vect(t,time,lambda,u,x,xref,obj)
 
-
 % ~~~~~~~~~~~~~~~~~~ Parameter extraction from obj ~~~~~~~~~~~~~~~~~~~~~~ %
 Lx = obj.Lx; Lu = obj.Lu;
 Cx = obj.Cx; Cu = obj.Cu;

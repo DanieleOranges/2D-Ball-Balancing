@@ -8,7 +8,7 @@ ux = interp1(Tu,u(1,:),tx);
 uy = interp1(Tu,u(2,:),tx);
 
 Lu = [Q(1,1)*ux;Q(2,2)*uy];
-B  = [Kbbx*1;0;Kbby*1;0];
-
+% B  = [Kbbx*1;0;Kbby*1;0];
+% 
 dH(1,:) = Lu(1) + p1.*(Kbbx).*1; % L_u + lmb^T*B (see the dynamic equation)
 dH(2,:) = Lu(2) + p3.*(Kbby).*1;

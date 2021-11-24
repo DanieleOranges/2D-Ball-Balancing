@@ -19,20 +19,26 @@ data
 
 % Initial and final time ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 t0 = 0; 
-dt = 1e-02;
-tf = 1;
-% Time interval
-time = (t0:dt:tf);       % discretize time
-Nsegment = length(time);
+% dt = 1e-02;
+% tf = 1;
+% % Time interval
+% time = (t0:dt:tf);       % discretize time
+% Nsegment = length(time);
+
+Nsegment = 100;
+tf = 5;
+time = linspace(t0,tf,Nsegment);
 
 % Input reference ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % ref  = load('Monza.mat');
 % ref.x = interp1(1:length(ref.x), ref.x, linspace(1, length(ref.x), Nsegment), 'nearest')';
 % ref.y = interp1(1:length(ref.y), ref.y, linspace(1, length(ref.y), Nsegment), 'nearest')';
-ref.x = linspace(0,1,Nsegment)';
-ref.y = linspace(0,0.5,Nsegment)';
-% ref.x   = 0.5*sin(2*pi*1*time)';
-% ref.y   = 0.5*sin(2*pi*1*time + pi/2)';
+% ref.x = linspace(0,1,Nsegment)';
+% ref.y = linspace(0,0.5,Nsegment)';
+ref.x   = 0.05*sin(2*pi/5*time)';
+ref.y   = 0.05*sin(2*pi/5*time + pi/2)';
+% ref.x = zeros(Nsegment,1); ref.x(end) = 4/100;
+% ref.y = zeros(Nsegment,1); ref.y(end) = 7/100;
 xref = [ref.x,zeros(Nsegment,1),ref.y,zeros(Nsegment,1)];
 
 % Boundary conditions
@@ -40,28 +46,32 @@ initx = [ref.x(1);0;ref.y(1);0];       % initial values for the states
 
 % Weights and limits ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % weight for the states
-R = [1000 , 0 , 0 ,  0;
+R = [10 , 0 , 0 ,  0;
       0 , 0 , 0 ,  0;
-      0 , 0 ,  1000 , 0;
+      0 , 0 ,  10 , 0;
       0 , 0 ,  0 , 0];
 % weight for final condition on state
-P = [1 , 0 , 0 , 0;
+P = [2 , 0 , 0 , 0;
       0 , 0 , 0 , 0;
-      0 , 0 , 1, 0;
+      0 , 0 , 2, 0;
       0 , 0 ,  0 , 0];
 % weights for the control
-Q = [0 , 0 ;
-     0 , 0];
+Q = [0.1 , 0 ;
+     0 , 0.1];
+
+% weights for the exponential term
+K = 0;
 % Limit cost for divergence
 Jlim = 1e04;
 
 %% Iterative Procedure
 % Options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 options = odeset('RelTol', 1e-4, 'AbsTol',[1e-4 1e-4 1e-4 1e-4]);
-Nmax = 1e+03;                       % Maximum number of iterations
+Nmax = 1e+04;                       % Maximum number of iterations
 u    = zeros(2,Nsegment);           % guessed initial control  u = 0
-step = 1e-6;                        % speed of control adjustment
-eps  = 1e-2;                        % Exit tollerance condition
+
+step = 1e-03;                        % speed of control adjustment
+eps  = 1e-04;                        % Exit tollerance condition
 
 ii = 1;
 tic
@@ -73,14 +83,14 @@ while ii <= Nmax
    x1 = X(:,1); x2 = X(:,2); x3 = X(:,3); x4 = X(:,4);
 
    % Final values of the adjoint vector (dPhi/dx)|tf
-   initp = [P(1,1)*(x1(end)-ref.x(end));0;P(3,3)*(x3(end)-ref.y(end));0];   
+   initp = [P(1,1)*(x1(end)-ref.x(end));P(2,2)*x2(end);P(3,3)*(x3(end)-ref.y(end));P(4,4)*x4(end)];   
 
    % Backwards integrations of adjoint vector dynamics
-   [Tlmb,L] = ode45(@(t,lmb) adjointEq(t,lmb,u,time,x1,x2,x3,x4,ref,timex,R), flip(time), initp, options);
-   lmb1 = L(:,1);
-   lmb1 = interp1(Tlmb,lmb1,timex);
-   lmb3 = L(:,3);
-   lmb3 = interp1(Tlmb,lmb3,timex);
+   [Tlmb,L] = ode45(@(t,lmb) adjointEq(t,lmb,u,time,x1,x2,x3,x4,ref,timex,R,K), flip(time), initp, options);
+   lmb1 = L(:,1); lmb1 = interp1(Tlmb,lmb1,timex);
+   lmb2 = L(:,2); lmb2 = interp1(Tlmb,lmb2,timex);
+   lmb3 = L(:,3); lmb3 = interp1(Tlmb,lmb3,timex);
+   lmb4 = L(:,4); lmb4 = interp1(Tlmb,lmb4,timex);
 
    % Important: costate is stored in reverse order. The dimension of
    % the adjoint vector may also different from dimension of states
@@ -99,7 +109,7 @@ while ii <= Nmax
 
    L = 0;
    for jj = 1 : Nsegment
-       L = L + (tf/length(timex)*0.5*u(:,jj)'*Q*u(:,jj)) + (tf/length(timex)*0.5*(X(jj,:)-xref(jj,:))*R*(X(jj,:)-xref(jj,:))');
+       L = L + (tf/length(timex)*0.5*u(:,jj)'*Q*u(:,jj)) + (tf/length(timex)*0.5*(X(jj,:)-xref(jj,:))*R*(X(jj,:)-xref(jj,:))') + (K*tf/length(timex)*exp(X(jj,1)-xref(jj,1))) + (K*tf/length(timex)*exp(X(jj,3)-xref(jj,3)))  ;
    end
    J(ii,1) = 0.5*(X(end,:)-xref(end,:))*P*(X(end,:)-xref(end,:))' + L;
    
@@ -121,11 +131,14 @@ while ii <= Nmax
        disp(["Max iterations reached. Final cost: ",num2str(J(ii,1)),' [-]'])
    end
      % ~~ Real time Cost Functional plot ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     njump = 100;
+     njump = 50;
      if rem(ii,njump) == 0 
-%         figure(10); plot(ii,J(ii,1),'.b'); hold on; grid on;
-%         disp(['Iterations needed for convergence:',num2str( -(J(ii,1))/((J(ii,1) - J(ii-1,1)) / njump)) ])
-          figure(20); hplot = plot(x1,x3,':'); grid on; hold on;
+          figure(100)
+%           subplot(1,2,1);
+%           figure(100); plot(ii,J(ii,1),'.b'); hold on; grid on;
+%           disp(['Iterations needed for convergence:',num2str( -(J(ii,1))/((J(ii,1) - J(ii-1,1)) / njump)) ])
+%           subplot(1,2,2);
+          hplot = plot(x1,x3,':'); grid on; hold on;
           plot(x1(1),x3(1),'*r','MarkerSize',6); plot(x1(end),x3(end),'*g','MarkerSize',6)
           plot(ref.x,ref.y,'-.k')
           xlabel('x'); ylabel('y'); grid on; title('Trajectory'); axis equal
@@ -156,10 +169,10 @@ xlabel('x'); ylabel('y'); grid on; title('Trajectory'); axis equal
 figure; plot(J); xlabel('Iterations'); ylabel('Cost functional'); grid on
 title('Cost functional')
 
-[xGrid,yGrid] = meshgrid(time,1:ii-1);
-figure; mesh(xGrid,yGrid,abs(DHx)); hold on; 
-xlabel('time [s]'); ylabel('iterations'); zlabel('|dH/du|'); title('x direction error')
-figure; mesh(xGrid,yGrid,abs(DHy)); hold on; 
-xlabel('time [s]'); ylabel('iterations'); zlabel('|dH/du|'); title('y direction error')
+% [xGrid,yGrid] = meshgrid(time,1:ii-1);
+% figure; mesh(xGrid,yGrid,abs(DHx(1:end-1,:))); hold on; 
+% xlabel('time [s]'); ylabel('iterations'); zlabel('|dH/du|'); title('x direction error')
+% figure; mesh(xGrid,yGrid,abs(DHy(1:end-1,:))); hold on; 
+% xlabel('time [s]'); ylabel('iterations'); zlabel('|dH/du|'); title('y direction error')
 %% Optional 
 save('~.mat','X',"x1",'x2','x3','x4',"ref","u","time","J","elapsed_time")
