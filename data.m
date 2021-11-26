@@ -292,22 +292,22 @@ plant_y.Statename = states_y;   % assign state names
 plant_y.Outputname = states_y; % assign output name
 
 % integral action y direction
-A_y_aug = [0, 0, 0, Kbby; % augmented state space A matrix
-    1, 0, 0, 0;
-    0, 1, 0, 0;
-    0, 0, 0, -1/tau_mot_y];
-
-B_y_aug = [0; 0; 0; V2theta_y/tau_mot_y]; % augmented state space B matrix
-
-C_y_aug = eye(size(A_y_aug, 1)); % augmented state space C matrix (identity)
-
-D_y_aug = zeros(size(A_y_aug, 1), 1);    % augmented state space D matrix   
-
-[Kgain_y, prec_y] = place(A_y_aug, B_y_aug, poles_y_chosen);  % pole placement
-Ky = [Kgain_y(1 : 2), Kgain_y(4)];  % all control gains except integral
-Kyi = Kgain_y(3);    % integral control gain
-
-A_y_fullstate = A_yaug - B_yaug * Kgain_y;    % full state feedback matrix
+% A_y_aug = [0, 0, 0, Kbby; % augmented state space A matrix
+%     1, 0, 0, 0;
+%     0, 1, 0, 0;
+%     0, 0, 0, -1/tau_mot_y];
+% 
+% B_y_aug = [0; 0; 0; V2theta_y/tau_mot_y]; % augmented state space B matrix
+% 
+% C_y_aug = eye(size(A_y_aug, 1)); % augmented state space C matrix (identity)
+% 
+% D_y_aug = zeros(size(A_y_aug, 1), 1);    % augmented state space D matrix   
+% 
+% [Kgain_y, prec_y] = place(A_y_aug, B_y_aug, poles_y_chosen);  % pole placement
+% Ky = [Kgain_y(1 : 2), Kgain_y(4)];  % all control gains except integral
+% Kyi = Kgain_y(3);    % integral control gain
+% 
+% A_y_fullstate = A_yaug - B_yaug * Kgain_y;    % full state feedback matrix
 
 
 

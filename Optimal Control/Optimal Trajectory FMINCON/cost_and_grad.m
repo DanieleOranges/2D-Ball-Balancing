@@ -6,6 +6,7 @@ nu = param.nu;
 h = param.h;
 L = param.L;
 p = param.p;
+xref = param.xref;
 
 % extract states and control from z
 x = zeros(nx,N+1); u = zeros(nu,N);
@@ -19,7 +20,7 @@ end
 % Cost Function 
 cost = 0;
 for ii = 1:N
-    cost = cost + h*L(x(:,ii),u(:,ii));
+    cost = cost + h*L(x(:,ii),u(:,ii),xref(:,ii));
 end
 cost = cost + p(x(:,end));
 

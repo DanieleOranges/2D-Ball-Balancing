@@ -47,7 +47,7 @@ load('Optimal.mat');
 
 c = u;
 
-X = [x2,x1,x4,x3]; %X = X(:,2:end);
+X = [x2,x1,x4,x3]; %X = X(:,2:end); % Xp,X,Yp,Y
 Tc =  time;
 Tx =  time;
 
@@ -291,15 +291,17 @@ T = T';
 
 %% Simulink Model
 
-IC = [0;0;0;0];
+IC = X(1,:)'; 
 
 K1x = squeeze(K(:,[1,3]));
 K1y = squeeze(K(:,[6,8]));
 
-Wamp = 1; % amplitude of the disturbances
+Wamp = 0.1; % amplitude of the disturbances
 
 
-sim('SimExe1.slx')
+sim_out = sim('SimExe1.slx');
+
+%% PLOTS
 
 Xs = squeeze(Xs.data);
 Xref = squeeze(Xref.data);

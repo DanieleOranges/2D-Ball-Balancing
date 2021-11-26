@@ -19,9 +19,9 @@ data
 
 % Initial and final time ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 t0 = 0; 
-% dt = 1e-02;
-% tf = 1;
-% % Time interval
+dt = 1e-02;
+% tf = 5;
+% Time interval
 % time = (t0:dt:tf);       % discretize time
 % Nsegment = length(time);
 
@@ -30,13 +30,13 @@ tf = 5;
 time = linspace(t0,tf,Nsegment);
 
 % Input reference ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% ref  = load('Monza.mat');
-% ref.x = interp1(1:length(ref.x), ref.x, linspace(1, length(ref.x), Nsegment), 'nearest')';
-% ref.y = interp1(1:length(ref.y), ref.y, linspace(1, length(ref.y), Nsegment), 'nearest')';
+ref  = load('Monza.mat');
+ref.x = interp1(1:length(ref.x), ref.x, linspace(1, length(ref.x), Nsegment), 'nearest')';
+ref.y = interp1(1:length(ref.y), ref.y, linspace(1, length(ref.y), Nsegment), 'nearest')';
 % ref.x = linspace(0,1,Nsegment)';
 % ref.y = linspace(0,0.5,Nsegment)';
-ref.x   = 0.05*sin(2*pi/5*time)';
-ref.y   = 0.05*sin(2*pi/5*time + pi/2)';
+% ref.x   = 0.05*sin(2*pi/5*time)';
+% ref.y   = 0.05*sin(2*pi/5*time + pi/2)';
 % ref.x = zeros(Nsegment,1); ref.x(end) = 4/100;
 % ref.y = zeros(Nsegment,1); ref.y(end) = 7/100;
 xref = [ref.x,zeros(Nsegment,1),ref.y,zeros(Nsegment,1)];
@@ -51,9 +51,9 @@ R = [10 , 0 , 0 ,  0;
       0 , 0 ,  10 , 0;
       0 , 0 ,  0 , 0];
 % weight for final condition on state
-P = [2 , 0 , 0 , 0;
+P = [20 , 0 , 0 , 0;
       0 , 0 , 0 , 0;
-      0 , 0 , 2, 0;
+      0 , 0 , 20, 0;
       0 , 0 ,  0 , 0];
 % weights for the control
 Q = [0.1 , 0 ;
@@ -67,10 +67,9 @@ Jlim = 1e04;
 %% Iterative Procedure
 % Options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 options = odeset('RelTol', 1e-4, 'AbsTol',[1e-4 1e-4 1e-4 1e-4]);
-Nmax = 1e+04;                       % Maximum number of iterations
+Nmax = 1e+03;                       % Maximum number of iterations
 u    = zeros(2,Nsegment);           % guessed initial control  u = 0
-
-step = 1e-03;                        % speed of control adjustment
+step = 5e-4;                        % speed of control adjustment
 eps  = 1e-04;                        % Exit tollerance condition
 
 ii = 1;
@@ -81,16 +80,18 @@ while ii <= Nmax
    % Forward integration of state dynamics with assumed control u(ii,t)
    [timex,X] = ode45(@(t,x) stateEq(t,x,u,time), time, initx, options);
    x1 = X(:,1); x2 = X(:,2); x3 = X(:,3); x4 = X(:,4);
+   errx = x1 - ref.x;
+   erry = x1 - ref.y;
 
-   % Final values of the adjoint vector (dPhi/dx)|tf
+  % Final values of the adjoint vector (dPhi/dx)|tf
    initp = [P(1,1)*(x1(end)-ref.x(end));P(2,2)*x2(end);P(3,3)*(x3(end)-ref.y(end));P(4,4)*x4(end)];   
 
    % Backwards integrations of adjoint vector dynamics
-   [Tlmb,L] = ode45(@(t,lmb) adjointEq(t,lmb,u,time,x1,x2,x3,x4,ref,timex,R,K), flip(time), initp, options);
-   lmb1 = L(:,1); lmb1 = interp1(Tlmb,lmb1,timex);
-   lmb2 = L(:,2); lmb2 = interp1(Tlmb,lmb2,timex);
-   lmb3 = L(:,3); lmb3 = interp1(Tlmb,lmb3,timex);
-   lmb4 = L(:,4); lmb4 = interp1(Tlmb,lmb4,timex);
+   [Tlmb,L] = ode45(@(t,lmb) adjointEq(t,lmb,u,time,x1,x2,x3,x4,ref,timex,R,K,errx,erry), flip(time), initp, options);
+   lmb1 = L(:,1); lmb1 = interp1(Tlmb,lmb1,time);
+   lmb2 = L(:,2); lmb2 = interp1(Tlmb,lmb2,time);
+   lmb3 = L(:,3); lmb3 = interp1(Tlmb,lmb3,time);
+   lmb4 = L(:,4); lmb4 = interp1(Tlmb,lmb4,time);
 
    % Important: costate is stored in reverse order. The dimension of
    % the adjoint vector may also different from dimension of states
