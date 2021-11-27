@@ -13,19 +13,17 @@ set(0,'DefaultFigureWindowStyle','docked')
 % - Constraint sul gradiente del controllo (u deve essere C1)
 
 %% Initial and final time
-t0 = 0;                     % Initial time [s]
-tf = 10;                    % Final time [s]
-N  = 200;                   % Number of spacesteps/timesteps [~]
-h = tf/(N-1);               % Temporal discretization [s]
-time = linspace(t0,tf,N+1); % Time array [s]
+t0 = 0;                    % Initial time [s]
+tf = 5;                    % Final time [s]
+h  = 0.01;                 % Temporal discretization [s]
+N  = tf/h +1;              % Number of spacesteps/timesteps [~]
+t  = 0:h:N*h;              % Time array [s]
 
 %% Reference generation
-ref  = load('Monza.mat');
+% ref  = load('Monza.mat');
+ref  = load('Skidpad.mat');
 p = interparc(N+1,ref.x,ref.y); ref.x = p(:,1); % Arclength interpolation
                                 ref.y = p(:,2); clear p
-
-% ref.x   = 0.05*sin(2*pi/5*time)';
-% ref.y   = 0.05*sin(2*pi/5*time + pi/2)';
 
 xref   = [zeros(N+1,1),ref.x,zeros(N+1,1),ref.y]';
 
@@ -70,12 +68,12 @@ px =@(x)   P*(x - xref(:,end));
 
 % Options
 options = optimoptions('fmincon', ...
-                       'Algorithm','active-set', ...
                        'MaxFunctionEvaluations',10^4, ...
                        'SpecifyObjectiveGradient',false, ...
-                       'SpecifyConstraintGradient',true, ...
+                       'SpecifyConstraintGradient',false, ...
                        'CheckGradients',true, ...
-                       'Display','iter-detailed');
+                       'PlotFcn','optimplotfval', ...
+                       'Display','iter');
 
 % Initial Condition z0
 z0 = zeros(N*(nx + nu) + nx,1);
@@ -90,9 +88,9 @@ ObjFun = @(z) cost_and_grad(z,param);
 NLcon = @(z) con_and_grad(z,param);
 
 % Maximum error on state reference and control action
-max_errx = 0.05;  % [m]
-max_errv = 100;  % [m/s]
-max_u    = 100;  % [?]
+max_errx = 0.05;       % [m]
+max_errv = 100;        % [m/s]
+max_u    = 90/180*pi;  % [rad]
 [lb,ub] = bound_define(xref,max_errx,max_errv,max_u,nx,nu,N);
 
 % linear inequalities
@@ -102,11 +100,9 @@ Aeq = [];
 beq = []; 
 
 % Minimize ObjFun s.t. NLcon
-[z,fval,exitflag,output,lambda] = fmincon(ObjFun,z0,A,b,Aeq,beq,lb,ub,NLcon);
+[z,fval,exitflag,output,lambda] = fmincon(ObjFun,z0,A,b,Aeq,beq,lb,ub,NLcon,options);
 
 %% State and control extraction from z
-
-t = 0:h:N*h;    % [t]
 
 x = zeros(nx,N+1); u = zeros(nu,N);
 for ii = 0:N
@@ -116,8 +112,11 @@ for ii = 0:N-1
     u(:,ii+1) = z((1 + nx + ii*(nu + nx)):(nx + nu + ii*(nu + nx)));   % [~] 
 end
 
-vBall = sqrt(x(1,:).^2 + x(3,:).^2)*1000;                              % [mm/s]
+vBall = sqrt(x(1,:).^2 + x(3,:).^2);                                   % [m/s]
 err_norm = sqrt( (x(2,:)-xref(2,:)).^2 + (x(4,:)-xref(4,:)).^2 );      % [m]
+
+%% Save solution
+save('OptimalResults.mat','x','t','u','xref')
 
 %% Plots
 close all
@@ -125,7 +124,7 @@ close all
 figure; hold on; grid on; title('Trajectory Comparison','Interpreter','latex');
 h1 = plot(x(2,:),x(4,:),'LineWidth',2); 
 plot(x(2,:),x(4,:),'*b','LineWidth',2); 
-plot(x(2,1),x(4,1),'*g','MarkerSize',4); axis equal
+plot(x(2,1),x(4,1),'*g','MarkerSize',20); axis equal
 h2 = plot(xref(2,:),xref(4,:),'*k','LineWidth',2);
 lgd = legend([h1,h2],{'$Trajectory$','$Reference$'},'Interpreter','LaTex');
 xlabel('$X Position [m]$','Interpreter','latex')
@@ -137,14 +136,14 @@ xlabel('$Time [s]$','Interpreter','latex');
 ylabel('$Error Norm_2$','Interpreter','latex');
 
 figure; hold on; grid on; title('$Control Effort$','Interpreter','latex');
-plot(t(2:end),u);
+plot(t(2:end),u*180/pi);
 xlabel('$Time [s]$','Interpreter','latex');
-ylabel('$Control Effort [~]$','Interpreter','latex');
+ylabel('$Control Effort [deg]$','Interpreter','latex');
 legend('$U_x$','$U_y$','interpreter','latex')
 
 figure; hold on; grid on; title('$Trajectory-Speed colorBox$','Interpreter','latex')
 axis equal
-scatter(x(2,:),x(4,:),16,vBall,'filled');
+scatter(x(2,:),x(4,:),16,vBall*1000,'filled');
 cb = colorbar; cb.Label.Interpreter = 'latex';
 cb.Label.String = ('$Ball speed [mm/s]$');
 xlabel('$X Position [m]$','Interpreter','latex')
@@ -157,3 +156,28 @@ cb = colorbar; cb.Label.Interpreter = 'latex';
 cb.Label.String = ('$Error Norm_2 [mm]$');
 xlabel('$X Position [m]$','Interpreter','latex')
 ylabel('$Y Position [m]$','Interpreter','latex')
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Animation ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+animation_flag = 1;
+if animation_flag == 1
+    counter = 1;
+    figure; hold on; grid on; axis equal; title('Real time Trajectory')
+    xlim(2*[min(x(2,:)) max(x(2,:))])
+    ylim(2*[min(x(4,:)) max(x(4,:))])
+    pause(0.1)
+    plot(xref(2,:),xref(4,:),'k','LineWidth',2);
+    for ii = 1 : length(u)
+        plot(x(2,ii),x(4,ii),'*g')
+        h1(counter) = quiver(x(2,ii),x(4,ii), ...
+                             x(1,ii),x(3,ii),'b');
+        pause(h); counter = counter + 1;
+        if rem(ii,4) == 0
+           for jj = 1 : counter-1
+               h1(jj).Visible = 0;
+           end
+           counter = 1;
+        end
+    end
+    clear h1
+end
+    
