@@ -8,48 +8,17 @@ clc
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 
 
-%% Data
-% data
 
-% weight on the control action
-R = [0.1,0;0,0.1];
-
-% weight on the (relative) state
-Q = zeros(4);
-Q(1,1) = 0;
-Q(2,2) = 10;
-Q(3,3) = 0;
-Q(4,4) = 10;
-
-% weight on the final target
-P = zeros(4);
-P(1,1) = 0;
-P(2,2) = 2;
-P(3,3) = 0;
-P(4,4) = 2;
-
-% % Normalization variables
-% dQpMax = 1;            %[rad/s]
-% dQMax = 1;              %[rad]
-% dCMax = 1;              %[Nm]
-% 
-% Q(1,1) = Q(1,1)./dQpMax.^2;
-% Q(2,2) = Q(2,2)./dQMax.^2;
-% 
-% P(1,1) = P(1,1)./dQpMax.^2;
-% P(2,2) = P(2,2)./dQMax.^2;
-% 
-% R = R./dCMax.^2;
 
 %% Nominal Optimal Trajectory Upload
 
-load('Optimal.mat');
+load('OptimalResults.mat');
 
 c = u;
-
-X = [x2,x1,x4,x3]; %X = X(:,2:end); % Xp,X,Yp,Y
-Tc =  time;
-Tx =  time;
+c = [[0;0],c];
+X = x'; %X = X(:,2:end); % Xp,X,Yp,Y
+Tc =  t;
+Tx =  t;
 
 %___ Plot the nominal (optimal) trajectory _______________________________%
 
@@ -296,8 +265,15 @@ IC = X(1,:)';
 K1x = squeeze(K(:,[1,3]));
 K1y = squeeze(K(:,[6,8]));
 
-Wamp = 0.1; % amplitude of the disturbances
-
+% DISTURBANCE 
+ % Uniform random 
+ min_uniform_random=-1;
+ max_uniform_random=1;
+ %constant
+ Wamp = 0.1; % amplitude of the disturbances
+ %sine
+ A_sine=0.1;    %amplitude
+ Frequency_sine=2*pi*10;
 
 sim_out = sim('SimExe1.slx');
 
@@ -379,9 +355,22 @@ ax.TickLabelInterpreter = 'LaTex';
 drawnow
 
 % print(FigTag,'fig3_6.jpeg','-djpeg','-r600')
+%%
 
-
-
+FigTag = figure;
+ax = axes;
+plot(Xs(:,2),Xs(:,4),'LineWidth',1,'LineStyle','-','Color','b');
+hold on; grid on;
+plot(Xref(2,:),Xref(4,:),'LineWidth',1,'LineStyle','-','Color','r');
+hold on; grid on;
+plot(xref(2,:),xref(4,:),'LineWidth',1,'LineStyle','-','Color','g');
+hold on; grid on;
+xlabel('$x$ [s]','Interpreter','LaTex')
+ylabel('$y$ [Nm]','Interpreter','LaTex')
+legend({'$Real$','$Reference-optimal$','$Reference$'},'Interpreter','Latex','location','best')
+ax.FontSize = 14;
+ax.TickLabelInterpreter = 'LaTex';
+axis equal
 
 
 

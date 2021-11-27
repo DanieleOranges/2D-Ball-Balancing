@@ -116,7 +116,11 @@ vBall = sqrt(x(1,:).^2 + x(3,:).^2);                                   % [m/s]
 err_norm = sqrt( (x(2,:)-xref(2,:)).^2 + (x(4,:)-xref(4,:)).^2 );      % [m]
 
 %% Save solution
-save('OptimalResults.mat','x','t','u','xref')
+save('OptimalResults.mat','x','t','u','xref','R','Q','P')
+
+cd ..\.. 
+cd(strcat(pwd,'\LQR\LQR'))
+save('OptimalResults.mat','x','t','u','xref','R','Q','P')
 
 %% Plots
 close all
