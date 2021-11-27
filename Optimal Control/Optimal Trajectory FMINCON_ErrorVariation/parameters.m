@@ -1,0 +1,15 @@
+param.N = N;
+param.nu = nu;
+param.nx = nx;
+param.dx = dx;
+param.x_i = x_i;
+param.fx = fx;
+param.fu = fu;
+param.L = L;
+param.Lx = Lx;
+param.Lu = Lu;
+param.p = p;
+param.px = px;
+param.h = h;
+param.xref = xref;
+param.t  = t;

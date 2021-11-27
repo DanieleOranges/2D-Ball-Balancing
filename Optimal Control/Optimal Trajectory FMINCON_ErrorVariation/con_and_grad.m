@@ -1,4 +1,4 @@
-function [c,con,grad_nonlin,grad] = con_and_grad(z,param)
+function [c,con,g,grad] = con_and_grad(z,param)
 
 N   = param.N;
 nx  = param.nx;
@@ -36,9 +36,9 @@ end
 fx = param.fx;
 fu = param.fu;
 
-%% Gradients
+%% Second constraint
 if nargout > 2
-grad_nonlin = [];  
+g = []; % Second Inequality Constraint
 grad = zeros(nx,N*(nu+nx) + nx); % gradient of a vector
 grad(1:nx,1:nx) = - eye(nx); %%%%% not sure here of the sign (should work both ways)
 for ii = 1:N

@@ -2,6 +2,7 @@ function [fval,results] = OpenEndOptimalControl(tf)
 
 %% Initial and final time
 t0 = 0;                     % Initial time [s]
+tf = 10;
 N  = 200;                   % Number of spacesteps/timesteps [~]
 h = tf/(N-1);               % Temporal discretization [s]
 t = t0:h:N*h;                % Time array [s]

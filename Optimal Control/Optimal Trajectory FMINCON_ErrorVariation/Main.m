@@ -3,21 +3,21 @@ clc
 close all
 set(0,'DefaultFigureWindowStyle','docked')
 
-t0 = 15;
-dt = 1;
-t  = t0:-dt:3;
-fval = zeros(length(t),1);
-for ii = 1 : length(t)
+e0 = 0.05;
+de = 0.01;
+e  = e0:-de:0.01;
+fval = zeros(length(e),1);
+for ii = 1 : length(e)
     disp(strcat('Iteration: ',num2str(ii)))
-    disp(strcat('Remaining Iterations:',num2str(length(t)-ii)))
+    disp(strcat('Remaining Iterations:',num2str(length(e)-ii)))
     tic
-    [fval(ii),results(ii)] = OpenEndOptimalControl(t(ii));
+    [fval(ii),results(ii)] = ErrorOptimalControl(e(ii));
     solver_time = toc;
-    disp(strcat('Remaining time',num2str(solver_time*(length(t)-ii))))
+    disp(strcat('Remaining time',num2str(solver_time*(length(e)-ii))))
 end
 
 %% Saving results
-save('OpenEndResults.mat',"fval","results");
+save('ErrorResults.mat',"fval","results");
 
 %% Plot
 
@@ -35,8 +35,8 @@ h1 = plot(results(1).xref(2,:),results(1).xref(4,:),'m','LineWidth',3)
 h2 = plot(results(ii).x(2,:),results(ii).x(4,:),'k','LineWidth',3);
 h3 = plot(results(end).x(2,:),results(end).x(4,:),'r','LineWidth',3);
 legend([h1,h2,h3],{'Reference' ...
-                   strcat('Optimal time: ',num2str(t(ii))), ...
-                   strcat('Minimum time: ',num2str(t(end)))});
+                   strcat('Optimal error: ',num2str(e(ii))), ...
+                   strcat('Minimum error: ',num2str(e(end)))});
 
 % Control Effort
 figure; hold on; grid on;
@@ -49,12 +49,12 @@ end
 [~,ii]= min(fval);
 h2 = plot(results(ii).time(2:end),results(ii).u(1,:)*180/pi,'k','LineWidth',3);
 h3 = plot(results(end).time(2:end),results(end).u(1,:)*180/pi,'r','LineWidth',3);
-legend([h2,h3],{strcat('Optimal time: ',num2str(t(ii))), ...
-                strcat('Minimum time: ',num2str(t(end)))});
+legend([h2,h3],{strcat('Optimal error: ',num2str(e(ii))), ...
+                strcat('Minimum error: ',num2str(e(end)))});
 
 % Cost Functional
 figure; hold on; grid on;
-plot(t,fval);
+plot(e,fval);
 title('$Cost functional Variation$','Interpreter','latex')
-xlabel('$Time [s]$','Interpreter','latex')
+xlabel('$Error [~]$','Interpreter','latex')
 ylabel('$Cost functional$','Interpreter','latex')

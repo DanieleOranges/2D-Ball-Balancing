@@ -14,14 +14,14 @@ set(0,'DefaultFigureWindowStyle','docked')
 
 %% Initial and final time
 t0 = 0;                    % Initial time [s]
-tf = 5;                    % Final time [s]
-h  = 0.01;                 % Temporal discretization [s]
+tf = 10;                   % Final time [s]
+h  = 0.05;                 % Temporal discretization [s]
 N  = tf/h +1;              % Number of spacesteps/timesteps [~]
 t  = 0:h:N*h;              % Time array [s]
 
 %% Reference generation
-% ref  = load('Monza.mat');
-ref  = load('Skidpad.mat');
+ref  = load('Monza.mat');
+% ref  = load('Skidpad.mat');
 p = interparc(N+1,ref.x,ref.y); ref.x = p(:,1); % Arclength interpolation
                                 ref.y = p(:,2); clear p
 
@@ -68,9 +68,9 @@ px =@(x)   P*(x - xref(:,end));
 
 % Options
 options = optimoptions('fmincon', ...
-                       'MaxFunctionEvaluations',10^4, ...
+                       'MaxFunctionEvaluations',2e+04, ...
                        'SpecifyObjectiveGradient',false, ...
-                       'SpecifyConstraintGradient',false, ...
+                       'SpecifyConstraintGradient',true, ...
                        'CheckGradients',true, ...
                        'PlotFcn','optimplotfval', ...
                        'Display','iter');
@@ -88,7 +88,7 @@ ObjFun = @(z) cost_and_grad(z,param);
 NLcon = @(z) con_and_grad(z,param);
 
 % Maximum error on state reference and control action
-max_errx = 0.05;       % [m]
+max_errx = 0.02;       % [m]
 max_errv = 100;        % [m/s]
 max_u    = 90/180*pi;  % [rad]
 [lb,ub] = bound_define(xref,max_errx,max_errv,max_u,nx,nu,N);
