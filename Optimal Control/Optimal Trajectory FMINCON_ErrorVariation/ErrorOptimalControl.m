@@ -1,4 +1,4 @@
-function [fval,results] = OpenEndOptimalControl(tf)
+function [fval,results] = OpenEndOptimalControl(max_errx)
 
 %% Initial and final time
 t0 = 0;                     % Initial time [s]
@@ -79,7 +79,6 @@ ObjFun = @(z) cost_and_grad(z,param);
 NLcon = @(z) con_and_grad(z,param);
 
 % Maximum error on state reference and control action
-max_errx = 0.05;       % [m]
 max_errv = 100;        % [m/s]
 max_u    = 90/180*pi;  % [rad]
 [lb,ub] = bound_define(xref,max_errx,max_errv,max_u,nx,nu,N);

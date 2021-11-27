@@ -23,7 +23,7 @@ save('ErrorResults.mat',"fval","results");
 
 % Trajectory
 close all
-figure; hold on; grid on;
+figure; hold on; grid on; axis equal
 title('$Trajectory Comparison$','interpreter','latex');
 xlabel('$X Position [m]$','Interpreter','latex');
 ylabel('$Y Position [m]$','Interpreter','latex');
@@ -31,9 +31,9 @@ for ii = 1:length(fval)
     plot(results(ii).x(2,:),results(ii).x(4,:))
 end
 [~,ii]= min(fval);
-h1 = plot(results(1).xref(2,:),results(1).xref(4,:),'m','LineWidth',3)
-h2 = plot(results(ii).x(2,:),results(ii).x(4,:),'k','LineWidth',3);
-h3 = plot(results(end).x(2,:),results(end).x(4,:),'r','LineWidth',3);
+h1 = plot(results(1).xref(2,:),results(1).xref(4,:),'g','LineWidth',2);
+h2 = plot(results(ii).x(2,:),results(ii).x(4,:),'k','LineWidth',2);
+h3 = plot(results(end).x(2,:),results(end).x(4,:),'r','LineWidth',2);
 legend([h1,h2,h3],{'Reference' ...
                    strcat('Optimal error: ',num2str(e(ii))), ...
                    strcat('Minimum error: ',num2str(e(end)))});
