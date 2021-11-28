@@ -13,15 +13,24 @@ set(0,'DefaultFigureWindowStyle','docked')
 % - Constraint sul gradiente del controllo (u deve essere C1)
 
 %% Initial and final time
-t0 = 0;                    % Initial time [s]
-tf = 10;                   % Final time [s]
-h  = 0.05;                 % Temporal discretization [s]
-N  = tf/h +1;              % Number of spacesteps/timesteps [~]
-t  = 0:h:N*h;              % Time array [s]
+t0 = 0;                     % Initial time [s]
+tf = 10;                     % Final time [s]
+
+% % Timestep Control
+% h  = 0.1;                 % Temporal discretization [s]
+% N  = tf/h +1;             % Number of spacesteps/timesteps [~]
+
+% Dimension Control
+N  = 300;                 % Number of spacesteps/timesteps [~]
+h  = tf/(N-1);            % Temporal discretization [s]
+
+t  = 0:h:N*h;               % Time array [s]
 
 %% Reference generation
-ref  = load('Monza.mat');
-% ref  = load('Skidpad.mat');
+targetpath = strcat(fileparts(pwd),'\Piste/');
+[trackname,~] = uigetfile(targetpath,'Select Track')
+ref = load(strcat(targetpath,trackname));
+
 p = interparc(N+1,ref.x,ref.y); ref.x = p(:,1); % Arclength interpolation
                                 ref.y = p(:,2); clear p
 
@@ -61,8 +70,8 @@ p = @(x) 0.5*(x - x_f)'*P*(x - x_f) ;                    % Final cost
 
 % Cost function partial derivatives
 Lx =@(x,u,xref) Q*(x - xref);
-Lu =@(x,u) R'*u;
-px =@(x)   P*(x - xref(:,end));
+Lu =@(x,u)      R'*u;
+px =@(x)        P*(x - xref(:,end));
 
 %% Setup minimization problem
 
@@ -70,7 +79,7 @@ px =@(x)   P*(x - xref(:,end));
 options = optimoptions('fmincon', ...
                        'MaxFunctionEvaluations',2e+04, ...
                        'SpecifyObjectiveGradient',false, ...
-                       'SpecifyConstraintGradient',true, ...
+                       'SpecifyConstraintGradient',false, ...
                        'CheckGradients',true, ...
                        'PlotFcn','optimplotfval', ...
                        'Display','iter');
@@ -88,7 +97,7 @@ ObjFun = @(z) cost_and_grad(z,param);
 NLcon = @(z) con_and_grad(z,param);
 
 % Maximum error on state reference and control action
-max_errx = 0.02;       % [m]
+max_errx = 0.005;       % [m]
 max_errv = 100;        % [m/s]
 max_u    = 90/180*pi;  % [rad]
 [lb,ub] = bound_define(xref,max_errx,max_errv,max_u,nx,nu,N);
@@ -109,18 +118,16 @@ for ii = 0:N
     x(:,ii+1) = z((1 + ii*(nu + nx)):(nx + ii*(nu + nx)));             % [m/s;m;m/s,m]
 end    
 for ii = 0:N-1
-    u(:,ii+1) = z((1 + nx + ii*(nu + nx)):(nx + nu + ii*(nu + nx)));   % [~] 
+    u(:,ii+1) = z((1 + nx + ii*(nu + nx)):(nx + nu + ii*(nu + nx)));   % [rad] 
 end
 
 vBall = sqrt(x(1,:).^2 + x(3,:).^2);                                   % [m/s]
 err_norm = sqrt( (x(2,:)-xref(2,:)).^2 + (x(4,:)-xref(4,:)).^2 );      % [m]
 
 %% Save solution
-save('OptimalResults.mat','x','t','u','xref','R','Q','P')
-
-cd ..\.. 
-cd(strcat(pwd,'\LQR\LQR'))
-save('OptimalResults.mat','x','t','u','xref','R','Q','P')
+curdir = pwd;
+targetpath = strcat(fileparts(pwd),'\OptimalResults/'); cd(targetpath)
+save(strcat('Optimal_',trackname),'x','t','u','xref','R','Q','P'); cd(curdir)
 
 %% Plots
 close all
@@ -128,7 +135,7 @@ close all
 figure; hold on; grid on; title('Trajectory Comparison','Interpreter','latex');
 h1 = plot(x(2,:),x(4,:),'LineWidth',2); 
 plot(x(2,:),x(4,:),'*b','LineWidth',2); 
-plot(x(2,1),x(4,1),'*g','MarkerSize',20); axis equal
+plot(x(2,1),x(4,1),'*g','MarkerSize',12); axis equal
 h2 = plot(xref(2,:),xref(4,:),'*k','LineWidth',2);
 lgd = legend([h1,h2],{'$Trajectory$','$Reference$'},'Interpreter','LaTex');
 xlabel('$X Position [m]$','Interpreter','latex')
@@ -168,16 +175,19 @@ if animation_flag == 1
     figure; hold on; grid on; axis equal; title('Real time Trajectory')
     xlim(2*[min(x(2,:)) max(x(2,:))])
     ylim(2*[min(x(4,:)) max(x(4,:))])
-    pause(0.1)
+    pause(2)
     plot(xref(2,:),xref(4,:),'k','LineWidth',2);
     for ii = 1 : length(u)
         plot(x(2,ii),x(4,ii),'*g')
         h1(counter) = quiver(x(2,ii),x(4,ii), ...
                              x(1,ii),x(3,ii),'b');
-        pause(h); counter = counter + 1;
-        if rem(ii,4) == 0
+        h2(counter) = quiver(x(2,ii),x(4,ii), ...
+                             u(1,ii)*0.5,u(2,ii)*0.5,'r');
+        pause(2*h); counter = counter + 1;
+        if rem(ii,3) == 0
            for jj = 1 : counter-1
                h1(jj).Visible = 0;
+               h2(jj).Visible = 0;
            end
            counter = 1;
         end

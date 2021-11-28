@@ -2,10 +2,11 @@ clear
 clc
 close all
 set(0,'DefaultFigureWindowStyle','docked')
+addpath Piste\
 
-t0 = 15;
-dt = 1;
-t  = t0:-dt:3;
+t0 = 10;
+dt = 2;
+t  = t0:-dt:2;
 fval = zeros(length(t),1);
 for ii = 1 : length(t)
     disp(strcat('Iteration: ',num2str(ii)))
@@ -31,9 +32,9 @@ for ii = 1:length(fval)
     plot(results(ii).x(2,:),results(ii).x(4,:))
 end
 [~,ii]= min(fval);
-h1 = plot(results(1).xref(2,:),results(1).xref(4,:),'m','LineWidth',3)
-h2 = plot(results(ii).x(2,:),results(ii).x(4,:),'k','LineWidth',3);
-h3 = plot(results(end).x(2,:),results(end).x(4,:),'r','LineWidth',3);
+h1 = plot(results(1).xref(2,:),results(1).xref(4,:),'b','LineWidth',2);
+h2 = plot(results(ii).x(2,:),results(ii).x(4,:),'k','LineWidth',2);
+h3 = plot(results(end).x(2,:),results(end).x(4,:),'r','LineWidth',2);
 legend([h1,h2,h3],{'Reference' ...
                    strcat('Optimal time: ',num2str(t(ii))), ...
                    strcat('Minimum time: ',num2str(t(end)))});
@@ -47,8 +48,8 @@ for ii = 1:length(fval)
     plot(results(ii).time(2:end),results(ii).u(1,:)*180/pi)
 end
 [~,ii]= min(fval);
-h2 = plot(results(ii).time(2:end),results(ii).u(1,:)*180/pi,'k','LineWidth',3);
-h3 = plot(results(end).time(2:end),results(end).u(1,:)*180/pi,'r','LineWidth',3);
+h2 = plot(results(ii).time(2:end),results(ii).u(1,:)*180/pi,'k','LineWidth',2);
+h3 = plot(results(end).time(2:end),results(end).u(1,:)*180/pi,'r','LineWidth',2);
 legend([h2,h3],{strcat('Optimal time: ',num2str(t(ii))), ...
                 strcat('Minimum time: ',num2str(t(end)))});
 

@@ -2,13 +2,16 @@ function [fval,results] = OpenEndOptimalControl(tf)
 
 %% Initial and final time
 t0 = 0;                     % Initial time [s]
-N  = 200;                   % Number of spacesteps/timesteps [~]
+N  = 300;                   % Number of spacesteps/timesteps [~]
 h = tf/(N-1);               % Temporal discretization [s]
 t = t0:h:N*h;                % Time array [s]
 
 %% Reference generation
-ref = load('Monza.mat');
+% ref = load('Monza.mat');
 % ref = load('Skidpad.mat');
+% ref = load('MonteCarlo.mat');
+ref = load("Barcelona.mat");
+
 p = interparc(N+1,ref.x,ref.y); ref.x = p(:,1); % Arclength interpolation
                                 ref.y = p(:,2); clear p
 
@@ -28,23 +31,23 @@ nu = 2;          % Number of inputs
 %% Functional Weights definition
 
 % Time Cost
-T = 0.001;
+T = 0.1;
 
 % Control Cost
-R = [ 0.1,     0;
-        0,   0.1];
+R = [ 0.001,     0;
+        0,   0.001];
 
 % State Cost
 Q = [ 0,  0,  0,  0;
-      0, 10,  0,  0;
+      0, 0,  0,  0;
       0,  0,  0,  0;
-      0,  0,  0, 10];
+      0,  0,  0, 0];
 
 % Final State Cost
 P = [ 0,  0,  0,  0; 
-      0, 10,  0,  0;
+      0, 0.2,  0,  0;
       0,  0,  0,  0;
-      0,  0,  0, 10];
+      0,  0,  0, 0.2];
 
 % Cost Function
 L = @(x,u,xref) 0.5*(x-xref)'*Q*(x-xref) + 0.5*u'*R*u + T*(tf-t0) ; % Running cost
@@ -78,9 +81,9 @@ ObjFun = @(z) cost_and_grad(z,param);
 NLcon = @(z) con_and_grad(z,param);
 
 % Maximum error on state reference and control action
-max_errx = 0.05;       % [m]
+max_errx = 0.005;       % [m]
 max_errv = 100;        % [m/s]
-max_u    = 90/180*pi;  % [rad]
+max_u    = 45/180*pi;  % [rad]
 [lb,ub] = bound_define(xref,max_errx,max_errv,max_u,nx,nu,N);
 
 % linear inequalities

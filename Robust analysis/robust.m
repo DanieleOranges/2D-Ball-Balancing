@@ -2,26 +2,16 @@
 clear all
 clc
 set(0,'DefaultFigureWindowStyle','docked')
-addpath(uigetdir(''))
-% addpath(strcat(pwd),)
-
 % Data callback
 data
 
-time = (0:dt:tfinal);
-pista = load('Monza.mat');
-pista.x = interp1(1:length(pista.x), pista.x, linspace(1, length(pista.x), length(time)), 'nearest');
-pista.y = interp1(1:length(pista.y), pista.y, linspace(1, length(pista.y), length(time)), 'nearest');
-
-refx = [time;pista.x]';
-refy = [time;pista.y]';
-
 % Non linear simulation
-out = sim('non_linear_sys_2.slx');
+out = sim('non_linear_sys.slx');
 
 %% Main
 % Motor TF
-M = tf([1],[0.01 1]);
+tau = 0.01;
+M = tf([1],[tau 1]);
 
 % Mechanical TF
 Gx = tf([(mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Lx)],[1 0 0]);
@@ -30,6 +20,8 @@ Gy = tf([(mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Ly)],[1 0 0]);
 % Uncertain Mechanical TF
 mb = ureal('mb',mb,'Percentage',50);
 rb = ureal('rb',rb,'Percentage',20);
+tau = ureal('tau',tau,'Percentage',50);
+M_unc = tf([1],[tau 1]);
 Gx_unc = tf([(mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Lx)],[1 0 0]);
 Gy_unc = tf([(mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Ly)],[1 0 0]);
 
@@ -49,9 +41,9 @@ Ry = tf(PID_sim.Kp) + tf(PID_sim.Ki,[1 0]) + tf([PID_sim.Kd*PID_sim.filter 0],[1
 
 % Open loop TF
 Lx     = Rx*M*Gx;
-Lx_unc = Rx*M*Gx_unc;
+Lx_unc = Rx*M_unc*Gx_unc;
 Ly     = Rx*M*Gy;
-Ly_unc = Rx*M*Gy_unc;
+Ly_unc = Rx*M_unc*Gy_unc;
 
 % Closed loop TF
 Cx = feedback(Lx,1);
@@ -75,11 +67,14 @@ stabmargy_unc = robstab(Cy_unc,opt);
 [maxgainy_unc,wcuy_unc] = wcgain(Cy_unc);
 
 %% Pole placement
-px = [-10 -2 -3];
+% X direction
+px = [-100 -10+2i -10-2i];
+
 X.tf = M*Gx;
 [A,B,C,D] = tf2ss(X.tf.num{1},X.tf.den{1});
 [Kx,precision,message] = place(A,B,px);
 X.A = A; X.B = B; X.C = C; X.D = D;
+
 % Closed loop ss form
 Cx_pp = ss(A-B*Kx,B,C,0);
 [NUM,DEN] = ss2tf(Cx_pp.A,Cx_pp.B,Cx_pp.C,Cx_pp.D);
@@ -87,11 +82,14 @@ Cx_pp = tf(NUM,DEN); clear NUM DEN
 % Open loop tf form
 Lx_pp  = Cx_pp/(1-Cx_pp);
 
-py = [-10 -2 -3];
+% Y direction
+py = [-10 -10+2i -10-2i];
+
 Y.tf = M*Gy;
 [A,B,C,D] = tf2ss(Y.tf.num{1},Y.tf.den{1});
 [Ky,precision,message] = place(A,B,py);
 Y.A = A; Y.B = B; Y.C = C; Y.D = D;
+
 % Closed loop ss form
 Cy_pp = ss(A-B*Ky,B,C,0);
 [NUM,DEN] = ss2tf(Cy_pp.A,Cy_pp.B,Cy_pp.C,Cy_pp.D);
@@ -99,14 +97,6 @@ Cy_pp = tf(NUM,DEN); clear NUM DEN
 % Open loop tf form
 Ly_pp  = Cy_pp/(1-Cy_pp);
 
-
-%% Noise in motor tension
-% Nmotor  = 
-%% Noise in sensors
-% Nsensor =
-%% Noise in system
-% Nsystem =
-%% LQR
 %% Plots
 figure('Name','State-Space 1'); plot(out.x.Data,out.xp.Data,'b'); grid on; hold on
 plot(out.y.Data,out.yp.Data,'r'); grid on

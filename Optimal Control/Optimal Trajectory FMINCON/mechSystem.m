@@ -8,7 +8,7 @@ Kbby = 0.9381;
 dx = @(x,u) [ Kbbx.*sin(u(1));
                         x(1);
               Kbby.*sin(u(2));            
-                       x(3)];
+                        x(3)];
 
 % Jacobian of the dynamics
 fx = @(x,u) [  0 , 0 , 0 , 0;  

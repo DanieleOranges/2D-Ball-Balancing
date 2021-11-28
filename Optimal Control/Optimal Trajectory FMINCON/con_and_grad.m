@@ -21,7 +21,7 @@ end
 lim_grad = 1e-02*[1;1];
 c = [];
 % for ii = 1:N
-%     u_constrain = (abs(diff(u)./diff(t)) - lim_grad);  % Limit on control gradient
+%     c = (abs(diff(u)./diff(t)) - lim_grad);  % Limit on control gradient
 % end
 % for ii = 0:N-1
 %     c((1 + nx + ii*(nu + nx)):(nx + nu + ii*(nu + nx))) = u_constrain(:,ii+1); % u(:,ii+1) =    
@@ -39,6 +39,7 @@ fu = param.fu;
 %% Gradients
 if nargout > 2
 grad_nonlin = [];  
+
 grad = zeros(nx,N*(nu+nx) + nx); % gradient of a vector
 grad(1:nx,1:nx) = - eye(nx); %%%%% not sure here of the sign (should work both ways)
 for ii = 1:N
