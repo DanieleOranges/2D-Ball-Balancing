@@ -1,6 +1,7 @@
 param.N = N;
 param.nu = nu;
 param.nx = nx;
+param.nt = nt;
 param.dx = dx;
 param.x_i = x_i;
 param.fx = fx;
@@ -12,4 +13,6 @@ param.p = p;
 param.px = px;
 param.h = h;
 param.xref = xref;
-param.t  = t;
+% param.t  = t;
+param.h = h;
+param.tf0 = tf0;

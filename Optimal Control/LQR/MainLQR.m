@@ -5,17 +5,16 @@ clc
 
 %% Nominal Optimal Trajectory Upload
 targetpath = strcat(fileparts(pwd),'\OptimalResults/');
-[trackname,~] = uigetfile(targetpath,'Select Simulation')
+[trackname,~] = uigetfile(targetpath,'Select Simulation');
 load(strcat(targetpath,trackname));
 
 u = [[0;0],u];
 x = x';
 time = t;
-
 %% Re-sample the optimal trajectory due to acquisition frequency constraint
 
 % Time discretization in N = number of time intervals
-N = 5000;
+N = 500;
 
 Ns = size(x,2); % number of states
 Nc = size(u,1); % number of controls
@@ -75,6 +74,8 @@ for ii = 1:N % Note: try also reshape.m
     PolesUC(ii,:) = eig(squeeze(A(ii,:,:)));
     % Gain matrix C
     K(ii,:,:) = pinv(R)*B'*PP_Matrix; % R has to be non-null
+    %
+    PolesC(ii,:) = eig(squeeze(A(ii,:,:)) -B*squeeze(K(ii,:,:)));
 end
 T = T';
 
@@ -104,9 +105,9 @@ out.uref.Data = squeeze(out.uref.Data)';
 close all
 
 figure; hold on; grid on; axis equal
-plot(out.x.Data(:,2),out.x.Data(:,4),'b') % Actual Position States
-plot(out.xref.Data(:,2),out.xref.Data(:,4),'r') % Optimal Reference Position States
-plot(xref(2,:),xref(4,:),'k'); % Track reference Position
+plot(out.x.Data(:,2),out.x.Data(:,4),'.b') % Actual Position States
+plot(out.xref.Data(:,2),out.xref.Data(:,4),'.r') % Optimal Reference Position States
+plot(xref(2,:),xref(4,:),'.k'); % Track reference Position
 legend('Actual','Optimal','Reference','interpreter','latex')
 
 figure; hold on; grid on;
@@ -115,8 +116,18 @@ plot(out.tout,out.u.Data(:,1),'b',out.tout,out.u.Data(:,2),'.-b')
 plot(out.tout,out.uref.Data(:,1),'r',out.tout,out.uref.Data(:,2),'.-r')
 xlabel('$Time [s]$','interpreter','latex')
 
-
-
+% Colore al variare dell'adimensional damping
+figure; hold on; grid on;
+title('$Controlled Poles$','Interpreter','latex')
+h = sin(pi - abs(angle(PolesC)));
+for ii = 1 : size(PolesC,2)
+    scatter(real(PolesC(:,ii)),imag(PolesC(:,ii)),[],h(:,ii));
+end
+bar = colorbar;
+colormap(gca,'jet');
+bar.Label.String = 'Adimensional Damping';
+xlabel('$\Re\{\lambda\}$ [Rad/s]','Interpreter','LaTex');
+ylabel('$\Im\{\lambda\}$ [Rad/s]','Interpreter','LaTex');
 
 
 

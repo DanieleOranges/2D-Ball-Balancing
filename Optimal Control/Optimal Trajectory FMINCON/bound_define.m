@@ -1,10 +1,10 @@
 function [lb,ub] = bound_define(xref,max_errx,max_errv,max_u,nx,nu,N)
 
-lb = zeros(N*(nx + nu) + nx,1);
-ub = zeros(N*(nx + nu) + nx,1);
+% lb = zeros(N*(nx + nu) + nx,1);
+% ub = zeros(N*(nx + nu) + nx,1);
 
-lb(1:nx,1) = -1e3; lb(nx:nx+nu) = -1e3;
-ub(1:nx,1) = +1e3; ub(nx:nx+nu) = +1e3;
+lb(1:nx,1) = +xref(:,1); lb(nx+1:nx+nu) = - max_u;
+ub(1:nx,1) = +xref(:,1); ub(nx+1:nx+nu) = + max_u;
 
 % Construction of array size N
 for ii = 1:N

@@ -1,13 +1,13 @@
-function dx = f(t,x,c,Tc)
+function dx = f(t,x,u,T)
 
 sys_data()
 
 dx = zeros(4,1);
 
-ux = c(1,:);
-uy = c(2,:);
-ux = interp1(Tc,ux,t); 
-uy = interp1(Tc,uy,t);
+ux = u(1,:);
+uy = u(2,:);
+ux = interp1(T,ux,t); 
+uy = interp1(T,uy,t);
 
 dx(1) = Kbbx*sin(ux);
 dx(2) = x(1);

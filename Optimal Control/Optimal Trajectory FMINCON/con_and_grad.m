@@ -18,10 +18,11 @@ for ii = 0:N-1
 end
 
 %% Constraint inequality ~~~~~~~~~~~~~~~~~~~~ CONTROLLARE ~~~~~~~~~~~~~~~~~
-lim_grad = 1e-02*[1;1];
+lim = 1;
 c = [];
 % for ii = 1:N
-%     c = (abs(diff(u)./diff(t)) - lim_grad);  % Limit on control gradient
+%     c(1,:) = abs(diff(u(1,:),2)/h) > lim;  % Limit on control gradient
+%     c(2,:) = abs(diff(u(2,:),2)/h) > lim;  % Limit on control gradient    
 % end
 % for ii = 0:N-1
 %     c((1 + nx + ii*(nu + nx)):(nx + nu + ii*(nu + nx))) = u_constrain(:,ii+1); % u(:,ii+1) =    

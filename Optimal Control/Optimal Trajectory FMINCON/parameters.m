@@ -13,3 +13,4 @@ param.px = px;
 param.h = h;
 param.xref = xref;
 param.t  = t;
+param.h = h;

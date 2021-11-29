@@ -1,12 +1,15 @@
-function [c,con,g,grad] = con_and_grad(z,param)
+function [c,con,grad_nonlin,grad] = con_and_grad(z,param)
 
 N   = param.N;
 nx  = param.nx;
 nu  = param.nu;
 dx  = param.dx;
+
 h   = param.h;
+h   = h*z(end,:);
+
 x_i = param.x_i;
-t   = param.t;
+% t   = param.t;
 
 %% State and control extraction from z
 x = zeros(nx,N+1); u = zeros(nu,N);
@@ -18,10 +21,11 @@ for ii = 0:N-1
 end
 
 %% Constraint inequality ~~~~~~~~~~~~~~~~~~~~ CONTROLLARE ~~~~~~~~~~~~~~~~~
-lim_grad = 1e-02*[1;1];
+lim = 1;
 c = [];
 % for ii = 1:N
-%     u_constrain = (abs(diff(u)./diff(t)) - lim_grad);  % Limit on control gradient
+%     c(1,:) = abs(diff(u(1,:),2)/h) > lim;  % Limit on control gradient
+%     c(2,:) = abs(diff(u(2,:),2)/h) > lim;  % Limit on control gradient    
 % end
 % for ii = 0:N-1
 %     c((1 + nx + ii*(nu + nx)):(nx + nu + ii*(nu + nx))) = u_constrain(:,ii+1); % u(:,ii+1) =    
@@ -36,9 +40,10 @@ end
 fx = param.fx;
 fu = param.fu;
 
-%% Second constraint
+%% Gradients
 if nargout > 2
-g = []; % Second Inequality Constraint
+grad_nonlin = [];  
+
 grad = zeros(nx,N*(nu+nx) + nx); % gradient of a vector
 grad(1:nx,1:nx) = - eye(nx); %%%%% not sure here of the sign (should work both ways)
 for ii = 1:N
