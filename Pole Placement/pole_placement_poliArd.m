@@ -1,12 +1,13 @@
-function [res] = pole_placement(poles_x_chosen, poles_y_chosen)
+clear
+close all
 
 %% Choose Poles as Input
 
 % t_s = 5/max(poles_x_chosen);
 % t_s = 1; 
-% % dom_pole = 5/t_s; 
-% poles_x_chosen = [-10, -5, -1, -0.1]; % chosen poles in x direction
-% poles_y_chosen = [-20, -10,  -0.5 + 0.25i, -0.5 - 0.25i]; % chosen poles in y direction
+% dom_pole = 5/t_s; 
+poles_x_chosen = [-40, -30, -0.8 + 0.25i, -0.8 - 0.25i]; % chosen poles in x direction
+poles_y_chosen = [-10, -5,  -0.8 + 0.25i, -0.8 - 0.25i]; % chosen poles in y direction
 
 %% Data Initialization
 
@@ -20,8 +21,10 @@ Ly = 0.184; % joint position in y direction
 
 Kbbx = (mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Ly);    % x direction transfer function
 Kbby = (mb * g * rb^2 * rm) / ((mb * rb^2 + Jb) * Lx);    % y direction transfer function
-tau_mot_x = 0.01;
-tau_mot_y = 0.01;
+tau_mot_x = 0.066472;
+tau_mot_y = 0.04644;
+V2theta_x = 0.16565;
+V2theta_y = 0.15936;
 
 %% State Space Models
 % state-space x direction
@@ -29,7 +32,7 @@ A_x = [0, 0, Kbbx; % state space A matrix
     1, 0, 0;
     0, 0, -1/tau_mot_x];
 
-B_x = [0; 0; 1/tau_mot_x]; % state space B matrix
+B_x = [0; 0; V2theta_x/tau_mot_x]; % state space B matrix
 
 C_x = eye(size(A_x, 1)); % state space C matrix (identity)
 
@@ -45,7 +48,7 @@ A_y = [0, 0, Kbby; % state space A matrix
     1, 0, 0;
     0, 0, -1/tau_mot_y];
 
-B_y = [0; 0; 1/tau_mot_y]; % state space B matrix
+B_y = [0; 0; V2theta_y/tau_mot_y]; % state space B matrix
 
 C_y = eye(size(A_y, 1)); % state space C matrix (identity)
 
@@ -64,7 +67,7 @@ A_x_aug = [0, 0, 0, Kbbx; % augmented state space A matrix
     0, 1, 0, 0;
     0, 0, 0, -1/tau_mot_x];
 
-B_xaug = [0; 0; 0; 1/tau_mot_x]; % augmented state space B matrix
+B_xaug = [0; 0; 0; V2theta_x/tau_mot_x]; % augmented state space B matrix
 
 C_xaug = eye(size(A_x_aug, 1)); % augmented state space C matrix (identity)
 
@@ -81,7 +84,7 @@ A_y_aug = [0, 0, 0, Kbby; % augmented state space A matrix
     0, 1, 0, 0;
     0, 0, 0, -1/tau_mot_y];
 
-B_y_aug = [0; 0; 0; 1/tau_mot_y]; % augmented state space B matrix
+B_y_aug = [0; 0; 0; V2theta_y/tau_mot_y]; % augmented state space B matrix
 
 C_y_aug = eye(size(A_y_aug, 1)); % augmented state space C matrix (identity)
 
@@ -93,8 +96,5 @@ Kyi = Kgain_y(3);    % integral control gain
 
 A_y_fullstate = A_y_aug - B_y_aug * Kgain_y;    % full state feedback matrix
 
-res.Kx   = Kx ; 
-res.Kxi  = Kxi; 
-res.Ky   = Ky ; 
-res.Kyi  = Kyi;
-end
+%% Export Variables
+save('../gain_matrix.mat', 'Kx', 'Kxi', 'Ky', 'Kyi')

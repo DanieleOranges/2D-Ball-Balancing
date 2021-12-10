@@ -1,0 +1,8 @@
+double2ascii_wrapper.o: \
+ C:/Users/ricci/Desktop/PROGET~1/2D-BAL~2/poliHard/double2ascii_wrapper.c \
+ C:/Users/ricci/Desktop/PROGET~1/2D-BAL~2/poliHard/board_programmer_ert_rtw/rtwtypes.h \
+ C:/PROGRA~1/MATLAB/R2021b/extern/include/tmwtypes.h
+
+C:/Users/ricci/Desktop/PROGET~1/2D-BAL~2/poliHard/board_programmer_ert_rtw/rtwtypes.h:
+
+C:/PROGRA~1/MATLAB/R2021b/extern/include/tmwtypes.h:
