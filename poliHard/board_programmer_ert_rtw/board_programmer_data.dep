@@ -3,11 +3,14 @@ board_programmer_data.o: \
  C:/Users/ricci/Desktop/PROGET~1/2D-BAL~2/poliHard/board_programmer_ert_rtw/board_programmer.h \
  C:/Users/ricci/Desktop/PROGET~1/2D-BAL~2/poliHard/board_programmer_ert_rtw/rtwtypes.h \
  C:/PROGRA~1/MATLAB/R2021b/extern/include/tmwtypes.h \
+ C:/PROGRA~1/MATLAB/R2021b/simulink/include/rtw_extmode.h \
+ C:/PROGRA~1/MATLAB/R2021b/simulink/include/sysran_types.h \
  C:/PROGRA~1/MATLAB/R2021b/simulink/include/rtw_continuous.h \
  C:/Users/ricci/Desktop/PROGET~1/2D-BAL~2/poliHard/board_programmer_ert_rtw/rtwtypes.h \
  C:/PROGRA~1/MATLAB/R2021b/simulink/include/rtw_solver.h \
  C:/PROGRA~1/MATLAB/R2021b/simulink/include/rtw_continuous.h \
  C:/PROGRA~3/MATLAB/SUPPOR~1/R2021b/toolbox/target/SUPPOR~1/ARDUIN~2/include/MW_arduino_digitalio.h \
+ C:/PROGRA~3/MATLAB/SUPPOR~1/R2021b/toolbox/target/shared/EMBEDD~1/include/ProtocolDecoderUtilities.h \
  C:/PROGRA~3/MATLAB/SUPPOR~1/R2021b/toolbox/target/SUPPOR~1/ARDUIN~2/include/MW_SerialRead.h \
  C:/PROGRA~3/MATLAB/SUPPOR~1/R2021b/toolbox/target/SUPPOR~1/ARDUIN~2/include/MW_SerialWrite.h \
  C:/Users/ricci/Desktop/PROGET~1/2D-BAL~2/poliHard/board_programmer_ert_rtw/board_programmer_types.h \
@@ -148,6 +151,10 @@ C:/Users/ricci/Desktop/PROGET~1/2D-BAL~2/poliHard/board_programmer_ert_rtw/rtwty
 
 C:/PROGRA~1/MATLAB/R2021b/extern/include/tmwtypes.h:
 
+C:/PROGRA~1/MATLAB/R2021b/simulink/include/rtw_extmode.h:
+
+C:/PROGRA~1/MATLAB/R2021b/simulink/include/sysran_types.h:
+
 C:/PROGRA~1/MATLAB/R2021b/simulink/include/rtw_continuous.h:
 
 C:/Users/ricci/Desktop/PROGET~1/2D-BAL~2/poliHard/board_programmer_ert_rtw/rtwtypes.h:
@@ -157,6 +164,8 @@ C:/PROGRA~1/MATLAB/R2021b/simulink/include/rtw_solver.h:
 C:/PROGRA~1/MATLAB/R2021b/simulink/include/rtw_continuous.h:
 
 C:/PROGRA~3/MATLAB/SUPPOR~1/R2021b/toolbox/target/SUPPOR~1/ARDUIN~2/include/MW_arduino_digitalio.h:
+
+C:/PROGRA~3/MATLAB/SUPPOR~1/R2021b/toolbox/target/shared/EMBEDD~1/include/ProtocolDecoderUtilities.h:
 
 C:/PROGRA~3/MATLAB/SUPPOR~1/R2021b/toolbox/target/SUPPOR~1/ARDUIN~2/include/MW_SerialRead.h:
 

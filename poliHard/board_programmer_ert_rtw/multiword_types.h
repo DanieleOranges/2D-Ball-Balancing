@@ -7,9 +7,9 @@
  *
  * Code generation for model "board_programmer".
  *
- * Model version              : 1.23
+ * Model version              : 1.24
  * Simulink Coder version : 9.6 (R2021b) 14-May-2021
- * C source code generated on : Thu Dec  9 19:01:36 2021
+ * C source code generated on : Mon Dec 13 16:08:22 2021
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -21,6 +21,12 @@
 #ifndef MULTIWORD_TYPES_H
 #define MULTIWORD_TYPES_H
 #include "rtwtypes.h"
+
+/*
+ * Definitions supporting external data access
+ */
+typedef int32_T chunk_T;
+typedef uint32_T uchunk_T;
 
 /*
  * MultiWord supporting definitions

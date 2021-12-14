@@ -7,9 +7,9 @@
  *
  * Code generation for model "board_programmer".
  *
- * Model version              : 1.23
+ * Model version              : 1.24
  * Simulink Coder version : 9.6 (R2021b) 14-May-2021
- * C source code generated on : Thu Dec  9 19:01:36 2021
+ * C source code generated on : Mon Dec 13 16:08:22 2021
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -23,6 +23,12 @@
 #include "rtwtypes.h"
 #include "multiword_types.h"
 #include "board_programmer.h"
+
+/* Private macros used by the generated code to access rtModel */
+#ifndef rtmSetTFinal
+#define rtmSetTFinal(rtm, val)         ((rtm)->Timing.tFinal = (val))
+#endif
+
 #ifndef UCHAR_MAX
 #include <limits.h>
 #endif
@@ -93,39 +99,29 @@ extern void Double2MultiWord(real_T u1, uint32_T y[], int32_T n);
 extern void MultiWordAdd(const uint32_T u1[], const uint32_T u2[], uint32_T y[],
   int32_T n);
 extern real_T sMultiWord2Double(const uint32_T u1[], int32_T n1, int32_T e1);
-extern void board_progra_MovingAverage_Init(DW_MovingAverage_board_progra_T
-  *localDW);
-extern void board_progr_MovingAverage_Reset(DW_MovingAverage_board_progra_T
-  *localDW);
-extern void board_progr_MovingAverage_Start(DW_MovingAverage_board_progra_T
-  *localDW);
-extern void board_programmer_MovingAverage(real_T rtu_0,
+extern void board_pr_MovingAverage_Init(DW_MovingAverage_board_progra_T *localDW);
+extern void board_p_MovingAverage_Reset(DW_MovingAverage_board_progra_T *localDW);
+extern void board_p_MovingAverage_Start(DW_MovingAverage_board_progra_T *localDW);
+extern void board_program_MovingAverage(real_T rtu_0,
   B_MovingAverage_board_program_T *localB, DW_MovingAverage_board_progra_T
   *localDW);
-extern void board_program_controlloPP1_Init(DW_controlloPP1_board_program_T
-  *localDW, P_controlloPP1_board_programm_T *localP);
-extern void board_progra_controlloPP1_Reset(DW_controlloPP1_board_program_T
-  *localDW, P_controlloPP1_board_programm_T *localP);
-extern void board_progra_controlloPP1_Start(DW_controlloPP1_board_program_T
-  *localDW);
-extern void board_prog_controlloPP1_Disable(DW_controlloPP1_board_program_T
-  *localDW);
-extern void board_programmer_controlloPP1(boolean_T rtu_Enable, const real_T
+extern void board_pro_controlloPP1_Init(DW_controlloPP1_board_program_T *localDW,
+  P_controlloPP1_board_programm_T *localP);
+extern void board_pr_controlloPP1_Reset(DW_controlloPP1_board_program_T *localDW,
+  P_controlloPP1_board_programm_T *localP);
+extern void board_pr_controlloPP1_Start(DW_controlloPP1_board_program_T *localDW);
+extern void board__controlloPP1_Disable(DW_controlloPP1_board_program_T *localDW);
+extern void board_programm_controlloPP1(boolean_T rtu_Enable, const real_T
   rtu_ref[2], const real_T rtu_pos[2], real_T rty_theta[2],
   B_controlloPP1_board_programm_T *localB, DW_controlloPP1_board_program_T
   *localDW, P_controlloPP1_board_programm_T *localP);
-extern void board_prog_MovingAverage_h_Init(DW_MovingAverage_board_prog_f_T
-  *localDW);
-extern void board_pro_MovingAverage_a_Start(DW_MovingAverage_board_prog_f_T
-  *localDW);
-extern void board_programme_MovingAverage_p(real_T rtu_0,
+extern void board__MovingAverage_p_Init(DW_MovingAverage_board_prog_f_T *localDW);
+extern void board_MovingAverage_g_Start(DW_MovingAverage_board_prog_f_T *localDW);
+extern void board_progr_MovingAverage_p(real_T rtu_0,
   B_MovingAverage_board_progr_c_T *localB, DW_MovingAverage_board_prog_f_T
   *localDW);
-extern void board_progra_MovingAverage_Term(DW_MovingAverage_board_progra_T
-  *localDW);
-extern void board_program_controlloPP1_Term(DW_controlloPP1_board_program_T
-  *localDW);
-extern void board_prog_MovingAverage_e_Term(DW_MovingAverage_board_prog_f_T
-  *localDW);
+extern void board_pr_MovingAverage_Term(DW_MovingAverage_board_progra_T *localDW);
+extern void board_pro_controlloPP1_Term(DW_controlloPP1_board_program_T *localDW);
+extern void board__MovingAverage_d_Term(DW_MovingAverage_board_prog_f_T *localDW);
 
 #endif                              /* RTW_HEADER_board_programmer_private_h_ */

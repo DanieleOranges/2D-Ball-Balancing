@@ -7,9 +7,9 @@
  *
  * Code generation for model "board_programmer".
  *
- * Model version              : 1.23
+ * Model version              : 1.24
  * Simulink Coder version : 9.6 (R2021b) 14-May-2021
- * C source code generated on : Thu Dec  9 19:01:36 2021
+ * C source code generated on : Mon Dec 13 16:08:22 2021
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -25,19 +25,19 @@
 P_board_programmer_T board_programmer_P = {
   /* Variable: circ1
    * Referenced by:
-   *   '<S5>/Constant1'
-   *   '<S16>/[0]'
-   *   '<S16>/[1]'
+   *   '<S6>/Constant1'
    *   '<S17>/[0]'
    *   '<S17>/[1]'
    *   '<S18>/[0]'
    *   '<S18>/[1]'
-   *   '<S23>/[0]'
-   *   '<S23>/[1]'
+   *   '<S19>/[0]'
+   *   '<S19>/[1]'
    *   '<S24>/[0]'
    *   '<S24>/[1]'
    *   '<S25>/[0]'
    *   '<S25>/[1]'
+   *   '<S26>/[0]'
+   *   '<S26>/[1]'
    */
   {
     {
@@ -2721,10 +2721,10 @@ P_board_programmer_T board_programmer_P = {
 
   /* Variable: touch
    * Referenced by:
-   *   '<S4>/Bias2'
-   *   '<S4>/Bias3'
-   *   '<S4>/Gain2'
-   *   '<S4>/Gain3'
+   *   '<S5>/Bias2'
+   *   '<S5>/Bias3'
+   *   '<S5>/Gain2'
+   *   '<S5>/Gain3'
    */
   {
     {
@@ -2750,10 +2750,10 @@ P_board_programmer_T board_programmer_P = {
 
   /* Variable: pwm
    * Referenced by:
-   *   '<S4>/Bias'
-   *   '<S4>/Bias1'
-   *   '<S4>/Gain'
-   *   '<S4>/Gain1'
+   *   '<S5>/Bias'
+   *   '<S5>/Bias1'
+   *   '<S5>/Gain'
+   *   '<S5>/Gain1'
    */
   {
     {
@@ -2783,14 +2783,14 @@ P_board_programmer_T board_programmer_P = {
 
   /* Variable: slow
    * Referenced by:
-   *   '<S32>/x integration gain'
-   *   '<S32>/x matrix gain'
    *   '<S33>/x integration gain'
    *   '<S33>/x matrix gain'
-   *   '<S26>/x integration gain'
-   *   '<S26>/x matrix gain'
+   *   '<S34>/x integration gain'
+   *   '<S34>/x matrix gain'
    *   '<S27>/x integration gain'
    *   '<S27>/x matrix gain'
+   *   '<S28>/x integration gain'
+   *   '<S28>/x matrix gain'
    */
   {
     { 4.9226003808205068, 16.213658300155849, -0.60199999999999976 },
@@ -2802,28 +2802,28 @@ P_board_programmer_T board_programmer_P = {
 
   /* Variable: h
    * Referenced by:
-   *   '<S9>/Gain'
-   *   '<S10>/Gain1'
+   *   '<S10>/Gain'
+   *   '<S11>/Gain1'
    */
   0.1,
 
   /* Mask Parameter: DiscreteDerivative_ICPrevScaled
-   * Referenced by: '<S30>/UD'
-   */
-  0.0,
-
-  /* Mask Parameter: DiscreteDerivative1_ICPrevScale
    * Referenced by: '<S31>/UD'
    */
   0.0,
 
+  /* Mask Parameter: DiscreteDerivative1_ICPrevScale
+   * Referenced by: '<S32>/UD'
+   */
+  0.0,
+
   /* Mask Parameter: CompareToConstant_const
-   * Referenced by: '<S36>/Constant'
+   * Referenced by: '<S37>/Constant'
    */
   10,
 
   /* Mask Parameter: SRFlipFlop_initial_condition
-   * Referenced by: '<S8>/Memory'
+   * Referenced by: '<S9>/Memory'
    */
   false,
 
@@ -2843,27 +2843,27 @@ P_board_programmer_T board_programmer_P = {
   0.02,
 
   /* Expression: 1
-   * Referenced by: '<S15>/Constant'
+   * Referenced by: '<S16>/Constant'
    */
   1.0,
 
   /* Computed Parameter: DiscreteTimeIntegrator_gainval
-   * Referenced by: '<S15>/Discrete-Time Integrator'
+   * Referenced by: '<S16>/Discrete-Time Integrator'
    */
   0.02,
 
   /* Expression: 0
-   * Referenced by: '<S15>/Discrete-Time Integrator'
+   * Referenced by: '<S16>/Discrete-Time Integrator'
    */
   0.0,
 
   /* Computed Parameter: time_Y0
-   * Referenced by: '<S9>/time'
+   * Referenced by: '<S10>/time'
    */
   0.0,
 
   /* Expression: ([1:circ1.open.lqr.N])
-   * Referenced by: '<S9>/Prelookup2'
+   * Referenced by: '<S10>/Prelookup2'
    */
   { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0,
     15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0,
@@ -2874,32 +2874,32 @@ P_board_programmer_T board_programmer_P = {
     80.0, 81.0 },
 
   /* Expression: 0
-   * Referenced by: '<S22>/Delay1'
+   * Referenced by: '<S23>/Delay1'
    */
   0.0,
 
   /* Computed Parameter: DiscreteTimeIntegrator_gainva_j
-   * Referenced by: '<S22>/Discrete-Time Integrator'
+   * Referenced by: '<S23>/Discrete-Time Integrator'
    */
   0.02,
 
   /* Expression: 0
-   * Referenced by: '<S22>/Discrete-Time Integrator'
+   * Referenced by: '<S23>/Discrete-Time Integrator'
    */
   0.0,
 
   /* Expression: 1
-   * Referenced by: '<S22>/Constant'
+   * Referenced by: '<S23>/Constant'
    */
   1.0,
 
   /* Expression: round(circ1.closed.lqr.T(end), 2)
-   * Referenced by: '<S10>/End Time Closed'
+   * Referenced by: '<S11>/End Time Closed'
    */
   8.03,
 
   /* Expression: ([1:circ1.open.lqr.N])
-   * Referenced by: '<S10>/Prelookup1'
+   * Referenced by: '<S11>/Prelookup1'
    */
   { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0,
     15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0,
@@ -2915,39 +2915,44 @@ P_board_programmer_T board_programmer_P = {
   { 0.0, 0.0 },
 
   /* Computed Parameter: TSamp_WtEt
-   * Referenced by: '<S30>/TSamp'
-   */
-  50.0,
-
-  /* Computed Parameter: TSamp_WtEt_g
    * Referenced by: '<S31>/TSamp'
    */
   50.0,
 
+  /* Computed Parameter: TSamp_WtEt_g
+   * Referenced by: '<S32>/TSamp'
+   */
+  50.0,
+
   /* Expression: round(circ1.open.lqr.T(end), 2)
-   * Referenced by: '<S5>/End Time Open'
+   * Referenced by: '<S6>/End Time Open'
    */
   8.03,
 
   /* Expression: 0
-   * Referenced by: '<S5>/Delay1'
+   * Referenced by: '<S6>/Delay1'
+   */
+  0.0,
+
+  /* Expression: 0
+   * Referenced by: '<Root>/Serial Receive'
    */
   0.0,
 
   /* Expression: [0 0]
-   * Referenced by: '<S3>/Constant1'
+   * Referenced by: '<S4>/Constant1'
    */
   { 0.0, 0.0 },
 
   /* Expression: 0
-   * Referenced by: '<S37>/Serial Transmit1'
+   * Referenced by: '<S38>/Serial Transmit1'
    */
   0.0,
 
-  /* Expression: 0
-   * Referenced by: '<S37>/Serial Transmit2'
+  /* Expression: 1
+   * Referenced by: '<S3>/Constant'
    */
-  0.0,
+  1.0,
 
   /* Computed Parameter: Merge_InitialOutput
    * Referenced by: '<Root>/Merge'
@@ -2955,37 +2960,37 @@ P_board_programmer_T board_programmer_P = {
   0.0,
 
   /* Computed Parameter: offsetforupperindex1_Value
-   * Referenced by: '<S16>/offset for upper index 1'
-   */
-  1U,
-
-  /* Computed Parameter: offsetforupperindex1_Value_g
    * Referenced by: '<S17>/offset for upper index 1'
    */
   1U,
 
-  /* Computed Parameter: offsetforupperindex1_Value_a
+  /* Computed Parameter: offsetforupperindex1_Value_g
    * Referenced by: '<S18>/offset for upper index 1'
    */
   1U,
 
-  /* Computed Parameter: offsetforupperindex1_Value_i
-   * Referenced by: '<S23>/offset for upper index 1'
+  /* Computed Parameter: offsetforupperindex1_Value_a
+   * Referenced by: '<S19>/offset for upper index 1'
    */
   1U,
 
-  /* Computed Parameter: offsetforupperindex1_Value_m
+  /* Computed Parameter: offsetforupperindex1_Value_i
    * Referenced by: '<S24>/offset for upper index 1'
    */
   1U,
 
-  /* Computed Parameter: offsetforupperindex1_Value_j
+  /* Computed Parameter: offsetforupperindex1_Value_m
    * Referenced by: '<S25>/offset for upper index 1'
    */
   1U,
 
+  /* Computed Parameter: offsetforupperindex1_Value_j
+   * Referenced by: '<S26>/offset for upper index 1'
+   */
+  1U,
+
   /* Computed Parameter: Logic_table
-   * Referenced by: '<S8>/Logic'
+   * Referenced by: '<S9>/Logic'
    */
   { false, true, false, false, true, true, false, false, true, false, true, true,
     false, false, false, false },
@@ -2993,26 +2998,16 @@ P_board_programmer_T board_programmer_P = {
   /* Start of '<S2>/controllo PP 1' */
   {
     /* Mask Parameter: DiscreteDerivative_ICPrevScaled
-     * Referenced by: '<S34>/UD'
-     */
-    0.0,
-
-    /* Mask Parameter: DiscreteDerivative_ICPrevScal_f
      * Referenced by: '<S35>/UD'
      */
     0.0,
 
-    /* Computed Parameter: TSamp_WtEt
-     * Referenced by: '<S34>/TSamp'
-     */
-    50.0,
-
-    /* Expression: 0
-     * Referenced by: '<S32>/Delay'
+    /* Mask Parameter: DiscreteDerivative_ICPrevScal_f
+     * Referenced by: '<S36>/UD'
      */
     0.0,
 
-    /* Computed Parameter: TSamp_WtEt_m
+    /* Computed Parameter: TSamp_WtEt
      * Referenced by: '<S35>/TSamp'
      */
     50.0,
@@ -3022,23 +3017,33 @@ P_board_programmer_T board_programmer_P = {
      */
     0.0,
 
+    /* Computed Parameter: TSamp_WtEt_m
+     * Referenced by: '<S36>/TSamp'
+     */
+    50.0,
+
+    /* Expression: 0
+     * Referenced by: '<S34>/Delay'
+     */
+    0.0,
+
     /* Computed Parameter: DiscreteTimeIntegrator_gainval
-     * Referenced by: '<S33>/Discrete-Time Integrator'
+     * Referenced by: '<S34>/Discrete-Time Integrator'
      */
     0.02,
 
     /* Expression: 0
-     * Referenced by: '<S33>/Discrete-Time Integrator'
+     * Referenced by: '<S34>/Discrete-Time Integrator'
      */
     0.0,
 
     /* Computed Parameter: DiscreteTimeIntegrator_gainva_k
-     * Referenced by: '<S32>/Discrete-Time Integrator'
+     * Referenced by: '<S33>/Discrete-Time Integrator'
      */
     0.02,
 
     /* Expression: 0
-     * Referenced by: '<S32>/Discrete-Time Integrator'
+     * Referenced by: '<S33>/Discrete-Time Integrator'
      */
     0.0
   }
@@ -3046,29 +3051,19 @@ P_board_programmer_T board_programmer_P = {
 
   /* End of '<S2>/controllo PP 1' */
 
-  /* Start of '<S5>/controllo PP 1' */
+  /* Start of '<S6>/controllo PP 1' */
   {
     /* Mask Parameter: DiscreteDerivative_ICPrevScaled
-     * Referenced by: '<S28>/UD'
-     */
-    0.0,
-
-    /* Mask Parameter: DiscreteDerivative_ICPrevScal_f
      * Referenced by: '<S29>/UD'
      */
     0.0,
 
-    /* Computed Parameter: TSamp_WtEt
-     * Referenced by: '<S28>/TSamp'
-     */
-    50.0,
-
-    /* Expression: 0
-     * Referenced by: '<S26>/Delay'
+    /* Mask Parameter: DiscreteDerivative_ICPrevScal_f
+     * Referenced by: '<S30>/UD'
      */
     0.0,
 
-    /* Computed Parameter: TSamp_WtEt_m
+    /* Computed Parameter: TSamp_WtEt
      * Referenced by: '<S29>/TSamp'
      */
     50.0,
@@ -3078,25 +3073,35 @@ P_board_programmer_T board_programmer_P = {
      */
     0.0,
 
+    /* Computed Parameter: TSamp_WtEt_m
+     * Referenced by: '<S30>/TSamp'
+     */
+    50.0,
+
+    /* Expression: 0
+     * Referenced by: '<S28>/Delay'
+     */
+    0.0,
+
     /* Computed Parameter: DiscreteTimeIntegrator_gainval
-     * Referenced by: '<S27>/Discrete-Time Integrator'
+     * Referenced by: '<S28>/Discrete-Time Integrator'
      */
     0.02,
 
     /* Expression: 0
-     * Referenced by: '<S27>/Discrete-Time Integrator'
+     * Referenced by: '<S28>/Discrete-Time Integrator'
      */
     0.0,
 
     /* Computed Parameter: DiscreteTimeIntegrator_gainva_k
-     * Referenced by: '<S26>/Discrete-Time Integrator'
+     * Referenced by: '<S27>/Discrete-Time Integrator'
      */
     0.02,
 
     /* Expression: 0
-     * Referenced by: '<S26>/Discrete-Time Integrator'
+     * Referenced by: '<S27>/Discrete-Time Integrator'
      */
     0.0
   }
-  /* End of '<S5>/controllo PP 1' */
+  /* End of '<S6>/controllo PP 1' */
 };

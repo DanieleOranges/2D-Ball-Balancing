@@ -7,9 +7,9 @@
  *
  * Code generation for model "board_programmer".
  *
- * Model version              : 1.23
+ * Model version              : 1.24
  * Simulink Coder version : 9.6 (R2021b) 14-May-2021
- * C source code generated on : Thu Dec  9 19:01:36 2021
+ * C source code generated on : Mon Dec 13 16:08:22 2021
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -293,6 +293,43 @@ typedef struct tag_mPMPiw8t0JZKYO8orfnwRG codertarget_arduinobase_block_T;
 
 #endif                             /* typedef_codertarget_arduinobase_block_T */
 
+#ifndef struct_tag_9aqKbsbsI7JI0RwgnVwU0C
+#define struct_tag_9aqKbsbsI7JI0RwgnVwU0C
+
+struct tag_9aqKbsbsI7JI0RwgnVwU0C
+{
+  int32_T __dummy;
+};
+
+#endif                                 /* struct_tag_9aqKbsbsI7JI0RwgnVwU0C */
+
+#ifndef typedef_b_arduinodriver_ArduinoDigita_T
+#define typedef_b_arduinodriver_ArduinoDigita_T
+
+typedef struct tag_9aqKbsbsI7JI0RwgnVwU0C b_arduinodriver_ArduinoDigita_T;
+
+#endif                             /* typedef_b_arduinodriver_ArduinoDigita_T */
+
+#ifndef struct_tag_qrLkTWTW64zZK0sqwALTyG
+#define struct_tag_qrLkTWTW64zZK0sqwALTyG
+
+struct tag_qrLkTWTW64zZK0sqwALTyG
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  b_arduinodriver_ArduinoDigita_T DigitalIODriverObj;
+};
+
+#endif                                 /* struct_tag_qrLkTWTW64zZK0sqwALTyG */
+
+#ifndef typedef_codertarget_arduinobase_blo_h_T
+#define typedef_codertarget_arduinobase_blo_h_T
+
+typedef struct tag_qrLkTWTW64zZK0sqwALTyG codertarget_arduinobase_blo_h_T;
+
+#endif                             /* typedef_codertarget_arduinobase_blo_h_T */
+
 #ifndef struct_tag_hIvgYBDLTTPVSpcx04ytXH
 #define struct_tag_hIvgYBDLTTPVSpcx04ytXH
 
@@ -309,6 +346,71 @@ struct tag_hIvgYBDLTTPVSpcx04ytXH
 typedef struct tag_hIvgYBDLTTPVSpcx04ytXH c_arduinodriver_ArduinoSerial_T;
 
 #endif                             /* typedef_c_arduinodriver_ArduinoSerial_T */
+
+#ifndef struct_tag_UWHgmoqoe5Gc3vQOnLBwhC
+#define struct_tag_UWHgmoqoe5Gc3vQOnLBwhC
+
+struct tag_UWHgmoqoe5Gc3vQOnLBwhC
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  real_T Protocol;
+  uint16_T DataSizeInBytes;
+  uint16_T DataTypeWidth;
+  c_arduinodriver_ArduinoSerial_T SerialDriverObj;
+};
+
+#endif                                 /* struct_tag_UWHgmoqoe5Gc3vQOnLBwhC */
+
+#ifndef typedef_codertarget_arduinobase_inter_T
+#define typedef_codertarget_arduinobase_inter_T
+
+typedef struct tag_UWHgmoqoe5Gc3vQOnLBwhC codertarget_arduinobase_inter_T;
+
+#endif                             /* typedef_codertarget_arduinobase_inter_T */
+
+#ifndef struct_tag_elfJpF8y5668Yvvc02e29E
+#define struct_tag_elfJpF8y5668Yvvc02e29E
+
+struct tag_elfJpF8y5668Yvvc02e29E
+{
+  uint8_T f1[4];
+  uint8_T f2[4];
+  uint8_T f3[4];
+  uint8_T f4[4];
+  uint8_T f5[4];
+  uint8_T f6;
+  uint8_T f7;
+  uint8_T f8[2];
+  boolean_T f9;
+};
+
+#endif                                 /* struct_tag_elfJpF8y5668Yvvc02e29E */
+
+#ifndef typedef_cell_board_programmer_T
+#define typedef_cell_board_programmer_T
+
+typedef struct tag_elfJpF8y5668Yvvc02e29E cell_board_programmer_T;
+
+#endif                                 /* typedef_cell_board_programmer_T */
+
+#ifndef struct_tag_IRLG9vcdhbEoNZQ4x8hW3F
+#define struct_tag_IRLG9vcdhbEoNZQ4x8hW3F
+
+struct tag_IRLG9vcdhbEoNZQ4x8hW3F
+{
+  char_T f1[5];
+};
+
+#endif                                 /* struct_tag_IRLG9vcdhbEoNZQ4x8hW3F */
+
+#ifndef typedef_f_cell_wrap_board_programmer_T
+#define typedef_f_cell_wrap_board_programmer_T
+
+typedef struct tag_IRLG9vcdhbEoNZQ4x8hW3F f_cell_wrap_board_programmer_T;
+
+#endif                              /* typedef_f_cell_wrap_board_programmer_T */
 
 #ifndef struct_tag_IRLG9vcdhbEoNZQ4x8hW3F
 #define struct_tag_IRLG9vcdhbEoNZQ4x8hW3F
@@ -327,6 +429,29 @@ typedef struct tag_IRLG9vcdhbEoNZQ4x8hW3F e_cell_wrap_board_programmer_T;
 
 #endif                              /* typedef_e_cell_wrap_board_programmer_T */
 
+#ifndef struct_tag_fPFWAHID9o6yHiG60RRjeG
+#define struct_tag_fPFWAHID9o6yHiG60RRjeG
+
+struct tag_fPFWAHID9o6yHiG60RRjeG
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  boolean_T TunablePropsChanged;
+  cell_wrap_board_programmer_T inputVarSize;
+  uint8_T DataBuffer[27];
+  cell_board_programmer_T PrevOutCellArray;
+};
+
+#endif                                 /* struct_tag_fPFWAHID9o6yHiG60RRjeG */
+
+#ifndef typedef_matlabshared_embedded_utiliti_T
+#define typedef_matlabshared_embedded_utiliti_T
+
+typedef struct tag_fPFWAHID9o6yHiG60RRjeG matlabshared_embedded_utiliti_T;
+
+#endif                             /* typedef_matlabshared_embedded_utiliti_T */
+
 #ifndef struct_tag_biR2LGuyDtsAdkgxNYAVUG
 #define struct_tag_biR2LGuyDtsAdkgxNYAVUG
 
@@ -341,12 +466,12 @@ struct tag_biR2LGuyDtsAdkgxNYAVUG
 
 #endif                                 /* struct_tag_biR2LGuyDtsAdkgxNYAVUG */
 
-#ifndef typedef_matlabshared_embedded_utiliti_T
-#define typedef_matlabshared_embedded_utiliti_T
+#ifndef typedef_matlabshared_embedded_utili_h_T
+#define typedef_matlabshared_embedded_utili_h_T
 
-typedef struct tag_biR2LGuyDtsAdkgxNYAVUG matlabshared_embedded_utiliti_T;
+typedef struct tag_biR2LGuyDtsAdkgxNYAVUG matlabshared_embedded_utili_h_T;
 
-#endif                             /* typedef_matlabshared_embedded_utiliti_T */
+#endif                             /* typedef_matlabshared_embedded_utili_h_T */
 
 #ifndef struct_tag_n0MAEkii5LAwS60oH8C7vG
 #define struct_tag_n0MAEkii5LAwS60oH8C7vG
@@ -362,12 +487,12 @@ struct tag_n0MAEkii5LAwS60oH8C7vG
 
 #endif                                 /* struct_tag_n0MAEkii5LAwS60oH8C7vG */
 
-#ifndef typedef_matlabshared_embedded_utili_h_T
-#define typedef_matlabshared_embedded_utili_h_T
+#ifndef typedef_matlabshared_embedded_util_hx_T
+#define typedef_matlabshared_embedded_util_hx_T
 
-typedef struct tag_n0MAEkii5LAwS60oH8C7vG matlabshared_embedded_utili_h_T;
+typedef struct tag_n0MAEkii5LAwS60oH8C7vG matlabshared_embedded_util_hx_T;
 
-#endif                             /* typedef_matlabshared_embedded_utili_h_T */
+#endif                             /* typedef_matlabshared_embedded_util_hx_T */
 
 #ifndef struct_tag_vNpQ9bJB0ku0iBAJkNrL9C
 #define struct_tag_vNpQ9bJB0ku0iBAJkNrL9C
@@ -389,14 +514,14 @@ struct tag_vNpQ9bJB0ku0iBAJkNrL9C
 
 #endif                                 /* struct_tag_vNpQ9bJB0ku0iBAJkNrL9C */
 
-#ifndef typedef_codertarget_arduinobase_inter_T
-#define typedef_codertarget_arduinobase_inter_T
+#ifndef typedef_codertarget_arduinobase_int_h_T
+#define typedef_codertarget_arduinobase_int_h_T
 
-typedef struct tag_vNpQ9bJB0ku0iBAJkNrL9C codertarget_arduinobase_inter_T;
+typedef struct tag_vNpQ9bJB0ku0iBAJkNrL9C codertarget_arduinobase_int_h_T;
 
-#endif                             /* typedef_codertarget_arduinobase_inter_T */
+#endif                             /* typedef_codertarget_arduinobase_int_h_T */
 
-/* Parameters for system: '<S5>/controllo PP 1' */
+/* Parameters for system: '<S6>/controllo PP 1' */
 typedef struct P_controlloPP1_board_programm_T_ P_controlloPP1_board_programm_T;
 
 /* Parameters (default storage) */

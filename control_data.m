@@ -4,7 +4,7 @@
 %% Pole Placement
 
 addpath('Pole Placement')
-pfast = [-25, -20, -4, -1.5]
+pfast = [-25, -20, -4, -1.5];
 pslow = [-20, -15, -4, -0.8];
 fast = pole_placement(pfast, pfast);
 slow = pole_placement(pslow, pslow);

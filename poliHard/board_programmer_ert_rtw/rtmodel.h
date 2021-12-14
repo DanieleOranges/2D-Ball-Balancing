@@ -4,7 +4,7 @@
  * Code generation for Simulink model "board_programmer".
  *
  * Simulink Coder version                : 9.6 (R2021b) 14-May-2021
- * C source code generated on : Thu Dec  9 19:01:36 2021
+ * C source code generated on : Mon Dec 13 16:08:22 2021
  *
  * Note that the generated code is not dependent on this header file.
  * The file is used in cojuction with the automatic build procedure.
@@ -16,9 +16,4 @@
 #ifndef RTW_HEADER_rtmodel_h_
 #define RTW_HEADER_rtmodel_h_
 #include "board_programmer.h"
-
-/* Macros generated for backwards compatibility  */
-#ifndef rtmGetStopRequested
-#define rtmGetStopRequested(rtm)       ((void*) 0)
-#endif
 #endif                                 /* RTW_HEADER_rtmodel_h_ */
